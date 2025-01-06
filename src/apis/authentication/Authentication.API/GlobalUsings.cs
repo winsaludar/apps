@@ -1,9 +1,12 @@
-﻿global using Authentication.API.Registrars;
+﻿global using Authentication.API.Middlewares;
+global using Authentication.API.Registrars;
 global using Authentication.Infrastructure;
 global using Authentication.Infrastructure.Entities;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.IdentityModel.Tokens;
+global using Shared.Common.Exceptions;
 global using Shared.Common.Interfaces;
 global using System.Text;
+global using System.Text.Json;
