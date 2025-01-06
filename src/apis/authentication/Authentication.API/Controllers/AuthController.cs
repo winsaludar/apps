@@ -5,17 +5,12 @@
 public class AuthController(IMediator mediator) : ControllerBase
 {
     [HttpPost("register")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Guid))]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RegisterResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponseSchema))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorResponseSchema))]
     public async Task<IActionResult> RegisterAsync([FromBody]RegisterUserCommand command)
     {
         User newUser = await mediator.Send(command);
-
-        return Ok(new 
-        {
-            id = newUser.Id,
-            username = newUser.Username,
-            email = newUser.Email
-        });
+        return Ok(new RegisterResponse(newUser.Id, newUser.Username, newUser.Email));
     }
 }
