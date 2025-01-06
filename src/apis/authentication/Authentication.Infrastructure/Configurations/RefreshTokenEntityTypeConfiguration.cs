@@ -1,10 +1,10 @@
 ﻿namespace Authentication.Infrastructure.Configurations;
 
-public class RefreshTokenEntityTypeConfiguration : IEntityTypeConfiguration<RefreshToken>
+public class RefreshTokenEntityTypeConfiguration : IEntityTypeConfiguration<Entities.RefreshToken>
 {
-    public void Configure(EntityTypeBuilder<RefreshToken> builder)
+    public void Configure(EntityTypeBuilder<Entities.RefreshToken> builder)
     {
-        builder.ToTable(nameof(RefreshToken));
+        builder.ToTable(nameof(Entities.RefreshToken));
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).ValueGeneratedOnAdd();

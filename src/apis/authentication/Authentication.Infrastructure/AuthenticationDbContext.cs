@@ -2,7 +2,7 @@
 
 public class AuthenticationDbContext(DbContextOptions options) : IdentityDbContext<AppUser>(options)
 {
-    public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
+    public DbSet<Entities.RefreshToken> RefreshTokens { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

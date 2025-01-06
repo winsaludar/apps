@@ -20,15 +20,22 @@ public class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddleware> lo
     private static async Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
     {
         httpContext.Response.ContentType = "application/json";
-        httpContext.Response.StatusCode = exception switch
+        
+        (httpContext.Response.StatusCode, string message) = exception switch
         {
-            BadRequestException => StatusCodes.Status400BadRequest,
-            UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
-            NotFoundException => StatusCodes.Status404NotFound,
-            _ => StatusCodes.Status500InternalServerError
+            BadRequestException => (StatusCodes.Status400BadRequest, "Invalid input"),
+            UnauthorizedAccessException => (StatusCodes.Status401Unauthorized, "Unauthorized Access"),
+            NotFoundException => (StatusCodes.Status404NotFound, "Not found"),
+            _ => (StatusCodes.Status500InternalServerError, "Internal server error")
         };
 
-        var response = new { error = exception.Message };
+        var response = new 
+        { 
+            statusCode = httpContext.Response.StatusCode,
+            error = message,
+            details = exception.Message.Split("|") 
+        };
+
         await httpContext.Response.WriteAsync(JsonSerializer.Serialize(response));
     }
 }

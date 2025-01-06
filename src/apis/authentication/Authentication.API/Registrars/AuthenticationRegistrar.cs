@@ -23,9 +23,24 @@ public class AuthenticationRegistrar : IRegistrar
         services.AddSingleton(tokenValidationParameters);
 
         // Configure Identity
-        services.AddIdentity<AppUser, IdentityRole>()
-            .AddEntityFrameworkStores<AuthenticationDbContext>()
-            .AddDefaultTokenProviders();
+        services.AddIdentity<AppUser, IdentityRole>(options => 
+        {
+            options.Password.RequireDigit = true;
+            options.Password.RequiredLength = 8;
+            options.Password.RequireNonAlphanumeric = true;
+            options.Password.RequireUppercase = true;
+            options.Password.RequireLowercase = true;
+            options.Password.RequiredUniqueChars = 1;
+
+            // Lockout user for 15 minutes when password is incorrect after 3 tries.
+            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+            options.Lockout.MaxFailedAccessAttempts = 3;
+            options.Lockout.AllowedForNewUsers = true;
+
+            options.User.RequireUniqueEmail = true;
+        })
+        .AddEntityFrameworkStores<AuthenticationDbContext>()
+        .AddDefaultTokenProviders();
 
         // Configure JWT Authentication Scheme
         services.AddAuthentication(options =>

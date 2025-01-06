@@ -1,9 +1,17 @@
 ﻿global using Authentication.API.Middlewares;
 global using Authentication.API.Registrars;
+global using Authentication.Core.Commands;
+global using Authentication.Core.Contracts;
+global using Authentication.Core.Models;
+global using Authentication.Core.Validators;
 global using Authentication.Infrastructure;
 global using Authentication.Infrastructure.Entities;
+global using Authentication.Infrastructure.Repositories;
+global using FluentValidation;
+global using MediatR;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.AspNetCore.Identity;
+global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.IdentityModel.Tokens;
 global using Shared.Common.Exceptions;
