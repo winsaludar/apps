@@ -13,3 +13,7 @@
 /src/clients/web/BlazorApp/obj
 /src/tests/authentication/Authentication.UnitTests/bin/Debug/net8.0
 /src/tests/authentication/Authentication.UnitTests/obj
+/src/.vs/ProjectEvaluation
+/src/shared/Shared.Common/bin/Debug/net8.0
+/src/shared/Shared.Common/obj
+/src/apis/authentication/Authentication.API/appsettings.Development.json
