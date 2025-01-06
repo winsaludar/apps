@@ -1,0 +1,15 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/src/.vs/Apps
+/src/apis/authentication/Authentication.API/bin/Debug/net8.0
+/src/apis/authentication/Authentication.API/obj
+/src/apis/authentication/Authentication.Core/bin/Debug/net8.0
+/src/apis/authentication/Authentication.Core/obj
+/src/apis/authentication/Authentication.Infrastructure/bin/Debug/net8.0
+/src/apis/authentication/Authentication.Infrastructure/obj
+/src/clients/web/BlazorApp/bin/Debug/net8.0
+/src/clients/web/BlazorApp/obj
+/src/tests/authentication/Authentication.UnitTests/bin/Debug/net8.0
+/src/tests/authentication/Authentication.UnitTests/obj
