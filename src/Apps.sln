@@ -29,6 +29,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Shared", "01 - Shared"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Common", "shared\Shared.Common\Shared.Common.csproj", "{E932221F-E2A9-48F9-9C30-31063DF8D276}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05 - Templates", "05 - Templates", "{7387AFD5-E8EF-47B7-8F17-E702F1035942}"
+	ProjectSection(SolutionItems) = preProject
+		email-confirmation.html = email-confirmation.html
+		forgot-password.html = forgot-password.html
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

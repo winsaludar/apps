@@ -4,19 +4,20 @@ public class AuthenticationRegistrar : IRegistrar
 {
     public void RegistrarService(IServiceCollection services, IConfiguration configuration)
     {
-        string jwtSecret = configuration["JWT:Secret"] ?? string.Empty;
-        string jwtIssuer = configuration["JWT:Issuer"] ?? string.Empty;
-        string jwtAudience = configuration["JWT:Audience"] ?? string.Empty;
+        // Bind jwtSettings so we can use it anywhere
+        JwtSettings jwtSettings = new();
+        configuration.GetSection("JWT").Bind(jwtSettings);
+        services.AddSingleton(jwtSettings);
 
         // Configure token validation parameters 
         TokenValidationParameters tokenValidationParameters = new()
         {
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSecret)),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
             ValidateIssuer = true,
-            ValidIssuer = jwtIssuer,
+            ValidIssuer = jwtSettings.Issuer,
             ValidateAudience = true,
-            ValidAudience = jwtAudience,
+            ValidAudience = jwtSettings.Audience,
             ValidateLifetime = true,
             ClockSkew = TimeSpan.FromMinutes(1),
         };

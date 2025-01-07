@@ -9,6 +9,7 @@ global using Authentication.Core.Validators;
 global using Authentication.Infrastructure;
 global using Authentication.Infrastructure.Entities;
 global using Authentication.Infrastructure.Repositories;
+global using Authentication.Infrastructure.Settings;
 global using FluentValidation;
 global using MediatR;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;

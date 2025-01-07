@@ -2,8 +2,8 @@
 
 public class TokenRepository(
     TokenValidationParameters tokenValidationParameters, 
-    IConfiguration configuration, 
-    IRefreshTokenRepository refreshTokenRepository) : ITokenRepository
+    IRefreshTokenRepository refreshTokenRepository,
+    JwtSettings jwtSettings) : ITokenRepository
 {
     public async Task<Token> GenerateJwtAsync(User user, Core.Models.RefreshToken? refreshToken = null)
     {
@@ -20,12 +20,11 @@ public class TokenRepository(
         // TODO: Add user role claims
 
         // Configure access token properties
-        _ = int.TryParse(configuration["JWT:ExpirationInMinutes"], out int expiration);
-        SymmetricSecurityKey authSigningKey = new(Encoding.ASCII.GetBytes(configuration["JWT:Secret"] ?? ""));
+        SymmetricSecurityKey authSigningKey = new(Encoding.ASCII.GetBytes(jwtSettings.Secret));
         JwtSecurityToken token = new(
-            issuer: configuration["JWT:Issuer"],
-            audience: configuration["JWT:Audience"],
-            expires: DateTime.UtcNow.AddMinutes(expiration),
+            issuer: jwtSettings.Issuer,
+            audience: jwtSettings.Audience,
+            expires: DateTime.UtcNow.AddMinutes(jwtSettings.ExpirationInMinutes),
             claims: authClaims,
             signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
 
@@ -37,9 +36,8 @@ public class TokenRepository(
             return Token.Create(jwtToken, refreshToken.Token, token.ValidTo);
 
         // Create refresh token when login
-        _ = int.TryParse(configuration["JWT:RefreshTokenExpirationInMonths"], out int refreshTokenExpiration);
         string rtToken = $"{Guid.NewGuid()}-{Guid.NewGuid()}";
-        Core.Models.RefreshToken newRefreshToken = Core.Models.RefreshToken.Create(rtToken, token.Id, false, user.Id.ToString(), DateTime.UtcNow, DateTime.UtcNow.AddMonths(refreshTokenExpiration), null);
+        Core.Models.RefreshToken newRefreshToken = Core.Models.RefreshToken.Create(rtToken, token.Id, false, user.Id.ToString(), DateTime.UtcNow, DateTime.UtcNow.AddMonths(jwtSettings.RefreshTokenExpirationInMonths), null);
         await refreshTokenRepository.CreateAsync(newRefreshToken);
 
         return Token.Create(jwtToken, newRefreshToken.Token, token.ValidTo);

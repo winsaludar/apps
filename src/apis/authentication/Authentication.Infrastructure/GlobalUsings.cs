@@ -1,11 +1,11 @@
 ﻿global using Authentication.Core.Contracts;
 global using Authentication.Core.Models;
 global using Authentication.Infrastructure.Entities;
+global using Authentication.Infrastructure.Settings;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
-global using Microsoft.Extensions.Configuration;
 global using Microsoft.IdentityModel.Tokens;
 global using System.IdentityModel.Tokens.Jwt;
 global using System.Security.Claims;
