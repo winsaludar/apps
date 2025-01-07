@@ -59,4 +59,14 @@ public class AuthController(IMediator mediator) : ControllerBase
         await mediator.Send(command, cancellationToken);
         return Ok(new SuccessResponse(200, "Your email is now verified"));
     }
+
+    [HttpPost("forgot-password")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SuccessResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorResponse))]
+    public async Task<IActionResult> ForgotPasswordAsync([FromBody] ForgotPasswordCommand command, CancellationToken cancellationToken)
+    {
+        await mediator.Send(command, cancellationToken);
+        return Ok(new SuccessResponse(200, "Please check your inbox/spam folder"));
+    }
 }

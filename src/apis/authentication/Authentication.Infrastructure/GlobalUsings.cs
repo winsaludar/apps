@@ -1,4 +1,5 @@
 ﻿global using Authentication.Core.Contracts;
+global using Authentication.Core.Exceptions;
 global using Authentication.Core.Models;
 global using Authentication.Infrastructure.Entities;
 global using Authentication.Infrastructure.Settings;
@@ -10,5 +11,6 @@ global using Microsoft.IdentityModel.Tokens;
 global using System.IdentityModel.Tokens.Jwt;
 global using System.Net;
 global using System.Net.Mail;
+global using System.Reflection;
 global using System.Security.Claims;
 global using System.Text;

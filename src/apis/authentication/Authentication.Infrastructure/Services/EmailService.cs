@@ -1,16 +1,9 @@
-﻿using Authentication.Core.Exceptions;
-using System.Reflection;
-
-namespace Authentication.Infrastructure.Services;
+﻿namespace Authentication.Infrastructure.Services;
 
 public class EmailService(SmtpSettings smtpSettings, EmailSettings emailConfirmationSettings) : IEmailService
 {
     public async Task SendEmailConfirmation(string email, string token, string name)
     {
-        using SmtpClient client = new(smtpSettings.Host, smtpSettings.Port);
-        client.Credentials = new NetworkCredential(smtpSettings.Login, smtpSettings.Password);
-        client.EnableSsl = smtpSettings.EnableSsl;
-
         string template = GetEmailTemplateAsync(emailConfirmationSettings.EmailConfirmationTemplateName);
         string link = $"{emailConfirmationSettings.ClientBaseUrl}/{emailConfirmationSettings.ClientConfirmEmailPath}?email={email}&token={token}";
         StringBuilder message = new(template);
@@ -19,22 +12,20 @@ public class EmailService(SmtpSettings smtpSettings, EmailSettings emailConfirma
             .Replace("{{fromEmail}}", smtpSettings.FromEmail)
             .Replace("{{fromName}}", smtpSettings.FromName);
 
-        MailMessage mailMessage = new() 
-        {
-            From = new MailAddress(smtpSettings.FromEmail, smtpSettings.FromName),
-            Subject = emailConfirmationSettings.EmailConfirmationSubject,
-            Body = message.ToString(),
-            IsBodyHtml = true
-        };
-
-        mailMessage.To.Add(email);
-
-        await client.SendMailAsync(mailMessage);
+        await SendAsync(email, emailConfirmationSettings.EmailConfirmationSubject, message.ToString());
     }
 
-    public Task SendForgotPasswordUrl(string email, string token, string name)
+    public async Task SendForgotPasswordUrl(string email, string token, string name)
     {
-        throw new NotImplementedException();
+        string template = GetEmailTemplateAsync(emailConfirmationSettings.ForgotPasswordTemplateName);
+        string link = $"{emailConfirmationSettings.ClientBaseUrl}/{emailConfirmationSettings.ClientResetPasswordPath}?email={email}&token={token}";
+        StringBuilder message = new(template);
+        message.Replace("{{username}}", name)
+            .Replace("{{link}}", link)
+            .Replace("{{fromEmail}}", smtpSettings.FromEmail)
+            .Replace("{{fromName}}", smtpSettings.FromName);
+
+        await SendAsync(email, emailConfirmationSettings.ForgotPasswordSubject, message.ToString());
     }
 
     private static string GetEmailTemplateAsync(string templateName)
@@ -47,5 +38,24 @@ public class EmailService(SmtpSettings smtpSettings, EmailSettings emailConfirma
 
         using var reader = new StreamReader(stream);
         return reader.ReadToEnd();
+    }
+
+    private async Task SendAsync(string recipient, string subject, string message)
+    {
+        using SmtpClient client = new(smtpSettings.Host, smtpSettings.Port);
+        client.Credentials = new NetworkCredential(smtpSettings.Login, smtpSettings.Password);
+        client.EnableSsl = smtpSettings.EnableSsl;
+
+        MailMessage mailMessage = new()
+        {
+            From = new MailAddress(smtpSettings.FromEmail, smtpSettings.FromName),
+            Subject = subject,
+            Body = message,
+            IsBodyHtml = true
+        };
+
+        mailMessage.To.Add(recipient);
+
+        await client.SendMailAsync(mailMessage);
     }
 }

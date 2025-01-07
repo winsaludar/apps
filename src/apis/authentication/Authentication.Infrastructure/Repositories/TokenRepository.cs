@@ -51,7 +51,16 @@ public class TokenRepository(
         if (dbUser is null)
             return string.Empty;
 
-        return await userManager.GenerateEmailConfirmationTokenAsync(dbUser!);
+        return await userManager.GenerateEmailConfirmationTokenAsync(dbUser);
+    }
+
+    public async Task<string?> GeneratePasswordResetTokenAsync(User user)
+    {
+        AppUser? dbUser = await userManager.FindByEmailAsync(user.Email);
+        if (dbUser is null)
+            return string.Empty;
+
+        return await userManager.GeneratePasswordResetTokenAsync(dbUser);
     }
 
     private static IEnumerable<Claim> GetAuthClaims(User user)
