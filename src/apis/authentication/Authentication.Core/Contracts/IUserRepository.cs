@@ -9,4 +9,5 @@ public interface IUserRepository
     Task<bool> ValidateLoginPasswordAsync(string email, string password);
     Task<bool> ValidateRegisterPasswordAsync(string password);
     Task<bool> ConfirmEmailAsync(string email, string token);
+    Task<bool> ResetPasswordAsync(string email, string password, string token);
 }

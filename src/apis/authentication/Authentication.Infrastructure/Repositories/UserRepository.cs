@@ -78,5 +78,15 @@ public class UserRepository(UserManager<AppUser> userManager) : IUserRepository
         return result.Succeeded;
     }
 
+    public async Task<bool> ResetPasswordAsync(string email, string password, string token)
+    {
+        AppUser? dbUser = await userManager.FindByEmailAsync(email);
+        if (dbUser is null)
+            return false;
+
+        IdentityResult result = await userManager.ResetPasswordAsync(dbUser, token, password);
+        return result.Succeeded;
+    }
+
     private static User ConvertToUser(AppUser dbUser) => User.Create(dbUser.UserName!, dbUser.Email!, Guid.Parse(dbUser.Id), dbUser.EmailConfirmed);
 }
