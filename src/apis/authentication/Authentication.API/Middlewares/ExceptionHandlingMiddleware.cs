@@ -24,19 +24,14 @@ public class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddleware> lo
         (httpContext.Response.StatusCode, string message) = exception switch
         {
             BadRequestException => (StatusCodes.Status400BadRequest, "Invalid input"),
-            UnauthorizedAccessException => (StatusCodes.Status401Unauthorized, "Unauthorized Access"),
+            UnauthorizedAccessException => (StatusCodes.Status401Unauthorized, "Unauthorized access"),
             NotFoundException => (StatusCodes.Status404NotFound, "Not found"),
             _ => (StatusCodes.Status500InternalServerError, "Internal server error")
         };
 
-        var response = new 
-        { 
-            statusCode = httpContext.Response.StatusCode,
-            error = message,
-            details = exception.Message.Split("|") 
-        };
+        ErrorResponse response = new(httpContext.Response.StatusCode, message, exception.Message.Split("|"));
 
-        await httpContext.Response.WriteAsync(JsonSerializer.Serialize(response));
+        await httpContext.Response.WriteAsync(JsonSerializer.Serialize(response, options: new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }));
     }
 }
 

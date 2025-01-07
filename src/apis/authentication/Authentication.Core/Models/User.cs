@@ -4,14 +4,20 @@ public class User
 {
     private User() { }
 
-    public static User Create(string username, string email, string password, Guid? id = null)
+    public static User Create(
+        string username, 
+        string email, 
+        string password, 
+        Guid? id = null,
+        bool isEmailConfirmed = false)
     {
         return new User 
         {
             Id = id ?? Guid.Empty,
             Username = username, 
             Email = email, 
-            Password = password 
+            Password = password,
+            IsEmailConfirmed = isEmailConfirmed
         };
     }
 
@@ -19,6 +25,7 @@ public class User
     public string Username { get; private set; } = default!;
     public string Email { get; private set; } = default!;
     public string Password { get; private set; } = default!;
+    public bool IsEmailConfirmed { get; set; } = false;
 
     public void SetId(Guid id) => Id = id;
 }

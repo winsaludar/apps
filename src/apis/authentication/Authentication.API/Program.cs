@@ -12,7 +12,12 @@ app.Run();
 static void AddMiddlewares(WebApplicationBuilder builder)
 {
     builder.Services.AddRouting(options => options.LowercaseUrls = true);
-    builder.Services.AddControllers();
+    builder.Services
+        .AddControllers()
+        .AddJsonOptions(options => 
+        {
+            options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        });
 
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();

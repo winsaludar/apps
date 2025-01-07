@@ -14,11 +14,11 @@ public class RegisterUserCommandHandler(IUserRepository userRepository) : IReque
             throw new BadRequestException("Username already exist");
 
         // Make sure password conforms with our requirement
-        bool isPasswordValid = await userRepository.ValidatePasswordAsync(request.Password);
+        bool isPasswordValid = await userRepository.ValidateRegisterPasswordAsync(request.Password);
         if (!isPasswordValid)
             throw new BadRequestException("Password do not meet our minimum requirements");
 
-        User newUser = User.Create(request.Username, request.Email, request.Password);      
+        User newUser = User.Create(request.Username, request.Email, request.Password);
         Guid newId = await userRepository.RegisterAsync(newUser);
         newUser.SetId(newId);
 

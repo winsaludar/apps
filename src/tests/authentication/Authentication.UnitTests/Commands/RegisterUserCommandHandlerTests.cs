@@ -47,7 +47,7 @@ public class RegisterUserCommandHandlerTests
             .ReturnsAsync((User)null!);
         _userRepository.Setup(x => x.GetByUsernameAsync(It.IsAny<string>()))
             .ReturnsAsync((User)null!);
-        _userRepository.Setup(x => x.ValidatePasswordAsync(It.IsAny<string>()))
+        _userRepository.Setup(x => x.ValidateRegisterPasswordAsync(It.IsAny<string>()))
             .ReturnsAsync(false);
 
         // Act & Assert
@@ -65,7 +65,7 @@ public class RegisterUserCommandHandlerTests
             .ReturnsAsync((User)null!);
         _userRepository.Setup(x => x.GetByUsernameAsync(It.IsAny<string>()))
             .ReturnsAsync((User)null!);
-        _userRepository.Setup(x => x.ValidatePasswordAsync(It.IsAny<string>()))
+        _userRepository.Setup(x => x.ValidateRegisterPasswordAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
         _userRepository.Setup(x => x.RegisterAsync(It.IsAny<User>()))
             .ReturnsAsync(newId);

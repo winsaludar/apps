@@ -5,5 +5,6 @@ public interface IUserRepository
     Task<User?> GetByEmailAsync(string email);
     Task<User?> GetByUsernameAsync(string username);
     Task<Guid> RegisterAsync(User user);
-    Task<bool> ValidatePasswordAsync(string password);
+    Task<bool> ValidateLoginPasswordAsync(string email, string password);
+    Task<bool> ValidateRegisterPasswordAsync(string password);
 }

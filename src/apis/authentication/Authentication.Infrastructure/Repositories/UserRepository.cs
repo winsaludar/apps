@@ -8,7 +8,7 @@ public class UserRepository(UserManager<AppUser> userManager) : IUserRepository
         if (dbUser is null)
             return null;
 
-        return User.Create(dbUser.UserName!, dbUser.Email!, dbUser.PasswordHash!, Guid.Parse(dbUser.Id));
+        return ConvertToUser(dbUser);
     }
 
     public async Task<User?> GetByUsernameAsync(string username)
@@ -17,7 +17,7 @@ public class UserRepository(UserManager<AppUser> userManager) : IUserRepository
         if (dbUser is null)
             return null;
 
-        return User.Create(dbUser.UserName!, dbUser.Email!, dbUser.PasswordHash!, Guid.Parse(dbUser.Id));
+        return ConvertToUser(dbUser);
     }
 
     public async Task<Guid> RegisterAsync(User user)
@@ -37,7 +37,16 @@ public class UserRepository(UserManager<AppUser> userManager) : IUserRepository
         return Guid.Parse(newUser.Id);
     }
 
-    public async Task<bool> ValidatePasswordAsync(string password)
+    public async Task<bool> ValidateLoginPasswordAsync(string email, string password)
+    {
+        AppUser? dbUser = await userManager.FindByEmailAsync(email);
+        if (dbUser is null) 
+            return false;
+
+        return await userManager.CheckPasswordAsync(dbUser, password);
+    }
+
+    public async Task<bool> ValidateRegisterPasswordAsync(string password)
     {
         var passwordValidators = userManager.PasswordValidators;
         foreach (var validator in passwordValidators)
@@ -49,4 +58,6 @@ public class UserRepository(UserManager<AppUser> userManager) : IUserRepository
 
         return true;
     }
+
+    private static User ConvertToUser(AppUser dbUser) => User.Create(dbUser.UserName!, dbUser.Email!, dbUser.PasswordHash!, Guid.Parse(dbUser.Id), dbUser.EmailConfirmed);
 }

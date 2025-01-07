@@ -1,6 +1,7 @@
-﻿global using Authentication.API.Middlewares;
-global using Authentication.API.Models;
+﻿global using Authentication.API.Dtos;
+global using Authentication.API.Middlewares;
 global using Authentication.API.Registrars;
+global using Authentication.API.Responses;
 global using Authentication.Core.Commands;
 global using Authentication.Core.Contracts;
 global using Authentication.Core.Models;
@@ -17,6 +18,6 @@ global using Microsoft.EntityFrameworkCore;
 global using Microsoft.IdentityModel.Tokens;
 global using Shared.Common.Exceptions;
 global using Shared.Common.Interfaces;
-global using Shared.Common.Schemas;
+global using Shared.Common.Responses;
 global using System.Text;
 global using System.Text.Json;
