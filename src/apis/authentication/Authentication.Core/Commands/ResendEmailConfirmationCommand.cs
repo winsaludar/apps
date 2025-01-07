@@ -3,9 +3,9 @@
 public class ResendEmailConfirmationCommandHandler(
     IUserRepository userRepository, 
     ITokenRepository tokenRepository, 
-    IEmailService emailService) : IRequestHandler<ResendEmailConfirmationCommand>
+    IEmailService emailService) : IRequestHandler<ResendEmailConfirmationCommand, Unit>
 {
-    public async Task Handle(ResendEmailConfirmationCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(ResendEmailConfirmationCommand request, CancellationToken cancellationToken)
     {
         // Make sure email is registered
         User? existingUser = await userRepository.GetByEmailAsync(request.Email)
@@ -22,9 +22,8 @@ public class ResendEmailConfirmationCommandHandler(
         // Send email
         await emailService.SendEmailConfirmation(existingUser.Email, token.Value, existingUser.Username);
 
-        // MediatR custom pipeline won't trigger when we don't return a response
-        //return true;
+        return Unit.Value;
     }
 }
 
-public record ResendEmailConfirmationCommand(string Email) : IRequest;
+public record ResendEmailConfirmationCommand(string Email) : IRequest<Unit>;
