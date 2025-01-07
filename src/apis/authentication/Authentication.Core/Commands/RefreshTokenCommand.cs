@@ -21,7 +21,7 @@ public class RefreshTokenCommandHandler(
 
         Token oldToken = Token.Create(request.Token, request.RefreshToken, DateTime.UtcNow);
         Token? newToken = await tokenRepository.RefreshJwtAsync(oldToken, existingUser, existingRefreshToken)
-            ?? throw new TokenException("Unable to generate token");
+            ?? throw new TokenException("Unable to generate new token");
 
         return (existingUser, newToken);
     }

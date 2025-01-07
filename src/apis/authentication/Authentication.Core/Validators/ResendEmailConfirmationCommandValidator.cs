@@ -1,14 +1,11 @@
 ﻿namespace Authentication.Core.Validators;
 
-public class LoginUserCommandValidator : AbstractValidator<LoginUserCommand>
+public class ResendEmailConfirmationCommandValidator : AbstractValidator<ResendEmailConfirmationCommand>
 {
-    public LoginUserCommandValidator()
+    public ResendEmailConfirmationCommandValidator()
     {
         RuleFor(x => x.Email)
             .NotEmpty().WithMessage("Field 'email' is required")
             .EmailAddress().WithMessage("Field 'email' should be a valid email address");
-
-        RuleFor(x => x.Password)
-            .NotEmpty().WithMessage("Field 'password' is required");
     }
 }

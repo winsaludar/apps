@@ -6,7 +6,7 @@ public class AuthenticationRegistrar : IRegistrar
     {
         // Bind jwtSettings so we can use it anywhere
         JwtSettings jwtSettings = new();
-        configuration.GetSection("JWT").Bind(jwtSettings);
+        configuration.GetSection(nameof(JwtSettings)).Bind(jwtSettings);
         services.AddSingleton(jwtSettings);
 
         // Configure token validation parameters 

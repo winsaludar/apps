@@ -8,7 +8,7 @@ public class AuthController(IMediator mediator) : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RegisterResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorResponse))]
-    public async Task<IActionResult> RegisterAsync([FromBody]RegisterUserCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> RegisterAsync([FromBody] RegisterUserCommand command, CancellationToken cancellationToken)
     {
         User newUser = await mediator.Send(command, cancellationToken);
         return Ok(new RegisterResponse(newUser.Id, newUser.Username, newUser.Email));
@@ -38,5 +38,15 @@ public class AuthController(IMediator mediator) : ControllerBase
         return Ok(new LoginResponse(
             new UserDto(user.Id, user.Username, user.Email),
             new TokenDto(token.Value, token.RefreshToken, token.ExpiresAt)));
+    }
+
+    [HttpPost("resend-email-confirmation")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SuccessResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorResponse))]
+    public async Task<IActionResult> ResendEmailConfirmationAsync([FromBody] ResendEmailConfirmationCommand command, CancellationToken cancellationToken)
+    {
+        await mediator.Send(command, cancellationToken);
+        return Ok(new SuccessResponse(200, "Re-send email confirmation link successful"));
     }
 }
