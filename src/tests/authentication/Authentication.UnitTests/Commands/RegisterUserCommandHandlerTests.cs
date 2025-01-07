@@ -15,7 +15,7 @@ public class RegisterUserCommandHandlerTests
     {
         // Arrange
         RegisterUserCommand command = new("username", "email@email.com", "password", "retypePassword");
-        User user = User.Create(command.Username, command.Email, command.Password);
+        User user = User.Create(command.Username, command.Email);
         _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>()))
             .ReturnsAsync(user);
 
@@ -28,7 +28,7 @@ public class RegisterUserCommandHandlerTests
     {
         // Arrange
         RegisterUserCommand command = new("username", "email@email.com", "password", "retypePassword");
-        User user = User.Create(command.Username, command.Email, command.Password);
+        User user = User.Create(command.Username, command.Email);
         _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>()))
             .ReturnsAsync((User)null!);
         _userRepository.Setup(x => x.GetByUsernameAsync(It.IsAny<string>()))
@@ -60,21 +60,21 @@ public class RegisterUserCommandHandlerTests
         // Arrange
         RegisterUserCommand command = new("username", "email@email.com", "password", "retypePassword");
         Guid newId = Guid.NewGuid();
-        User newUser = User.Create(command.Username, command.Email, command.Password, newId);        
+        User newUser = User.Create(command.Username, command.Email, newId);        
         _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>()))
             .ReturnsAsync((User)null!);
         _userRepository.Setup(x => x.GetByUsernameAsync(It.IsAny<string>()))
             .ReturnsAsync((User)null!);
         _userRepository.Setup(x => x.ValidateRegisterPasswordAsync(It.IsAny<string>()))
             .ReturnsAsync(true);
-        _userRepository.Setup(x => x.RegisterAsync(It.IsAny<User>()))
+        _userRepository.Setup(x => x.RegisterAsync(It.IsAny<User>(), It.IsAny<string>()))
             .ReturnsAsync(newId);
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _userRepository.Verify(x => x.RegisterAsync(It.IsAny<User>()), Times.Once);
+        _userRepository.Verify(x => x.RegisterAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Once);
         Assert.NotNull(result);
         Assert.IsType<User>(result);
         Assert.Equal(result.Id, newId);

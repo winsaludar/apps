@@ -28,7 +28,7 @@ public class LoginUserCommandHandlerTests
     {
         // Arrange
         LoginUserCommand command = new("email@example.com", "password");
-        User user = User.Create("username", command.Email, command.Password, Guid.NewGuid(), false);
+        User user = User.Create("username", command.Email, Guid.NewGuid(), false);
         _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>()))
             .ReturnsAsync(user);
         _userRepository.Setup(x => x.ValidateLoginPasswordAsync(It.IsAny<string>(), It.IsAny<string>()))
@@ -43,7 +43,7 @@ public class LoginUserCommandHandlerTests
     {
         // Arrange
         LoginUserCommand command = new("email@example.com", "password");
-        User user = User.Create("username", command.Email, command.Password, Guid.NewGuid(), false);
+        User user = User.Create("username", command.Email, Guid.NewGuid(), false);
         _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>()))
             .ReturnsAsync(user);
         _userRepository.Setup(x => x.ValidateLoginPasswordAsync(It.IsAny<string>(), It.IsAny<string>()))
@@ -58,7 +58,7 @@ public class LoginUserCommandHandlerTests
     {
         // Arrange
         LoginUserCommand command = new("email@example.com", "password");
-        User user = User.Create("username", command.Email, command.Password, Guid.NewGuid(), true);
+        User user = User.Create("username", command.Email, Guid.NewGuid(), true);
         Token token = Token.Create("value", "refresh-token", DateTime.UtcNow);
         _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>()))
             .ReturnsAsync(user);

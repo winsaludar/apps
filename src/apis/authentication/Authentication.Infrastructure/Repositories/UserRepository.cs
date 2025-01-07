@@ -29,7 +29,7 @@ public class UserRepository(UserManager<AppUser> userManager) : IUserRepository
         return ConvertToUser(dbUser);
     }
 
-    public async Task<Guid> RegisterAsync(User user)
+    public async Task<Guid> RegisterAsync(User user, string password)
     {
         AppUser newUser = new() 
         {
@@ -41,7 +41,7 @@ public class UserRepository(UserManager<AppUser> userManager) : IUserRepository
             LastName = "DEFAULT", // TODO
         };
 
-        await userManager.CreateAsync(newUser, user.Password);
+        await userManager.CreateAsync(newUser, password);
 
         return Guid.Parse(newUser.Id);
     }
@@ -68,5 +68,5 @@ public class UserRepository(UserManager<AppUser> userManager) : IUserRepository
         return true;
     }
 
-    private static User ConvertToUser(AppUser dbUser) => User.Create(dbUser.UserName!, dbUser.Email!, dbUser.PasswordHash!, Guid.Parse(dbUser.Id), dbUser.EmailConfirmed);
+    private static User ConvertToUser(AppUser dbUser) => User.Create(dbUser.UserName!, dbUser.Email!, Guid.Parse(dbUser.Id), dbUser.EmailConfirmed);
 }

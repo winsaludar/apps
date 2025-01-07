@@ -18,8 +18,8 @@ public class RegisterUserCommandHandler(IUserRepository userRepository) : IReque
         if (!isPasswordValid)
             throw new BadRequestException("Password do not meet our minimum requirements");
 
-        User newUser = User.Create(request.Username, request.Email, request.Password);
-        Guid newId = await userRepository.RegisterAsync(newUser);
+        User newUser = User.Create(request.Username, request.Email);
+        Guid newId = await userRepository.RegisterAsync(newUser, request.Password);
         newUser.SetId(newId);
 
         return newUser;
