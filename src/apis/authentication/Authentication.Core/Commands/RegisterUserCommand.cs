@@ -1,6 +1,9 @@
 ﻿namespace Authentication.Core.Commands;
 
-public class RegisterUserCommandHandler(IUserRepository userRepository) : IRequestHandler<RegisterUserCommand, User>
+public class RegisterUserCommandHandler(
+    IUserRepository userRepository, 
+    ITokenRepository tokenRepository,
+    IEmailService emailService) : IRequestHandler<RegisterUserCommand, User>
 {
     public async Task<User> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
@@ -21,6 +24,11 @@ public class RegisterUserCommandHandler(IUserRepository userRepository) : IReque
         User newUser = User.Create(request.Username, request.Email);
         Guid newId = await userRepository.RegisterAsync(newUser, request.Password);
         newUser.SetId(newId);
+
+        // Send email confirmation link
+        Token? emailToken = await tokenRepository.GenerateEmailConfirmationTokenAsync(newUser)
+            ?? throw new TokenException("Unable to generate email confirmation link");
+        await emailService.SendEmailConfirmation(newUser.Email, emailToken.Value, newUser.Username);
 
         return newUser;
     }
