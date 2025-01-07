@@ -15,12 +15,12 @@ public class ResendEmailConfirmationCommandHandler(
         if (existingUser.IsEmailConfirmed)
             throw new BadRequestException("Email is already verified");
 
-        // Generate token (1 day validity)
-        Token token = await tokenRepository.GenerateEmailConfirmationTokenAsync(existingUser)
+        // Generate token
+        string? emailToken = await tokenRepository.GenerateEmailConfirmationTokenAsync(existingUser) 
             ?? throw new TokenException("Unable to generate email confirmation link");
 
         // Send email
-        await emailService.SendEmailConfirmation(existingUser.Email, token.Value, existingUser.Username);
+        await emailService.SendEmailConfirmation(existingUser.Email, emailToken, existingUser.Username);
 
         return Unit.Value;
     }

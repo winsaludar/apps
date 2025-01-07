@@ -4,7 +4,7 @@ public class TokenRepository(
     TokenValidationParameters tokenValidationParameters,
     IRefreshTokenRepository refreshTokenRepository,
     JwtSettings jwtSettings,
-    EmailSettings emailConfirmationSettings) : ITokenRepository
+    UserManager<AppUser> userManager) : ITokenRepository
 {
     public async Task<Token> GenerateJwtAsync(User user, Core.Models.RefreshToken? refreshToken = null)
     {
@@ -45,18 +45,13 @@ public class TokenRepository(
         }
     }
 
-    public async Task<Token> GenerateEmailConfirmationTokenAsync(User user)
+    public async Task<string?> GenerateEmailConfirmationTokenAsync(User user)
     {
-        return await Task.Run(() => 
-        {
-            IEnumerable<Claim> authClaims = GetAuthClaims(user);
-            JwtSecurityToken token = GetJwtSecurityToken(jwtSettings.Secret, jwtSettings.Issuer, jwtSettings.Audience, emailConfirmationSettings.EmailConfirmationExpirationInMinutes, authClaims);
+        AppUser? dbUser = await userManager.FindByEmailAsync(user.Email);
+        if (dbUser is null)
+            return string.Empty;
 
-            // Generate access token
-            var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return Token.Create(jwtToken, "", token.ValidTo);
-        });
+        return await userManager.GenerateEmailConfirmationTokenAsync(dbUser!);
     }
 
     private static IEnumerable<Claim> GetAuthClaims(User user)

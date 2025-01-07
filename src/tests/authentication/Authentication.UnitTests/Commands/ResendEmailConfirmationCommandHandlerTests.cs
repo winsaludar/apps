@@ -46,7 +46,7 @@ public class ResendEmailConfirmationCommandHandlerTests
         _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>()))
             .ReturnsAsync(user);
         _tokenRepository.Setup(x => x.GenerateEmailConfirmationTokenAsync(It.IsAny<User>()))
-            .ReturnsAsync((Token)null!);
+            .ReturnsAsync((string)null!);
 
         // Act & Assert
         await Assert.ThrowsAsync<TokenException>(() => _handler.Handle(command, CancellationToken.None));
@@ -58,11 +58,10 @@ public class ResendEmailConfirmationCommandHandlerTests
         // Arrange
         ResendEmailConfirmationCommand command = new("email@example.com");
         User user = User.Create("username", command.Email, Guid.NewGuid(), false);
-        Token token = Token.Create("value", "", DateTime.UtcNow);
         _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>()))
             .ReturnsAsync(user);
         _tokenRepository.Setup(x => x.GenerateEmailConfirmationTokenAsync(It.IsAny<User>()))
-            .ReturnsAsync(token);
+            .ReturnsAsync("token");
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);

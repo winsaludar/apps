@@ -47,6 +47,16 @@ public class AuthController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> ResendEmailConfirmationAsync([FromBody] ResendEmailConfirmationCommand command, CancellationToken cancellationToken)
     {
         await mediator.Send(command, cancellationToken);
-        return Ok(new SuccessResponse(200, "Re-send email confirmation link successful"));
+        return Ok(new SuccessResponse(200, "Please check your inbox/spam folder"));
+    }
+
+    [HttpPost("confirm-email")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SuccessResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorResponse))]
+    public async Task<IActionResult> ConfirmEmailAsync([FromBody] ConfirmEmailCommand command, CancellationToken cancellationToken)
+    {
+        await mediator.Send(command, cancellationToken);
+        return Ok(new SuccessResponse(200, "Your email is now verified"));
     }
 }

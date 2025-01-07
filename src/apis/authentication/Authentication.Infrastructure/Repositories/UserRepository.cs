@@ -68,5 +68,15 @@ public class UserRepository(UserManager<AppUser> userManager) : IUserRepository
         return true;
     }
 
+    public async Task<bool> ConfirmEmailAsync(string email, string token)
+    {
+        AppUser? dbUser = await userManager.FindByEmailAsync(email);
+        if (dbUser is null)
+            return false;
+
+        IdentityResult result = await userManager.ConfirmEmailAsync(dbUser, token);
+        return result.Succeeded;
+    }
+
     private static User ConvertToUser(AppUser dbUser) => User.Create(dbUser.UserName!, dbUser.Email!, Guid.Parse(dbUser.Id), dbUser.EmailConfirmed);
 }

@@ -66,7 +66,6 @@ public class RegisterUserCommandHandlerTests
         RegisterUserCommand command = new("username", "email@email.com", "password", "retypePassword");
         Guid newId = Guid.NewGuid();
         User newUser = User.Create(command.Username, command.Email, newId);
-        Token token = Token.Create("value", "", DateTime.UtcNow);
         _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>()))
             .ReturnsAsync((User)null!);
         _userRepository.Setup(x => x.GetByUsernameAsync(It.IsAny<string>()))
@@ -76,7 +75,7 @@ public class RegisterUserCommandHandlerTests
         _userRepository.Setup(x => x.RegisterAsync(It.IsAny<User>(), It.IsAny<string>()))
             .ReturnsAsync(newId);
         _tokenRepository.Setup(x => x.GenerateEmailConfirmationTokenAsync(It.IsAny<User>()))
-            .ReturnsAsync(token);
+            .ReturnsAsync("token");
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
