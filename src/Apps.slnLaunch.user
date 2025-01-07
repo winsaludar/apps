@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "API + Blazor",
+    "Projects": [
+      {
+        "Path": "apis\\authentication\\Authentication.API\\Authentication.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "clients\\web\\BlazorApp\\BlazorApp.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
