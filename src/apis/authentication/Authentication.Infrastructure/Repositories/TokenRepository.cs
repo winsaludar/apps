@@ -1,6 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
-
-namespace Authentication.Infrastructure.Repositories;
+﻿namespace Authentication.Infrastructure.Repositories;
 
 public class TokenRepository(
     TokenValidationParameters tokenValidationParameters, 

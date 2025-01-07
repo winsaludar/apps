@@ -18,7 +18,7 @@ public class AuthenticationRegistrar : IRegistrar
             ValidateAudience = true,
             ValidAudience = jwtAudience,
             ValidateLifetime = true,
-            ClockSkew = TimeSpan.Zero
+            ClockSkew = TimeSpan.FromMinutes(1),
         };
         services.AddSingleton(tokenValidationParameters);
 

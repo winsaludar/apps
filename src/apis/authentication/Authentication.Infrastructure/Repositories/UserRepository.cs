@@ -2,6 +2,15 @@
 
 public class UserRepository(UserManager<AppUser> userManager) : IUserRepository
 {
+    public async Task<User?> GetByUserIdAsync(string userId)
+    {
+        AppUser? dbUser = await userManager.FindByIdAsync(userId);
+        if (dbUser is null)
+            return null;
+
+        return ConvertToUser(dbUser);
+    }
+
     public async Task<User?> GetByEmailAsync(string email)
     {
         AppUser? dbUser = await userManager.FindByEmailAsync(email);

@@ -21,18 +21,22 @@ public class AuthController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> LoginAsync([FromBody] LoginUserCommand command, CancellationToken cancellationToken)
     {
         (User user, Token token) = await mediator.Send(command, cancellationToken);
+        
         return Ok(new LoginResponse(
             new UserDto(user.Id, user.Username, user.Email),
             new TokenDto(token.Value, token.RefreshToken, token.ExpiresAt)));
     }
 
-    //[HttpPost("refresh-token")]
-    //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Token))]
-    //[ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
-    //[ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorResponse))]
-    //public async Task<IActionResult> RefreshTokenAsync([FromBody] LoginUserCommand command, CancellationToken cancellationToken)
-    //{
-    //    (User user, Token token) = await mediator.Send(command, cancellationToken);
-    //    return Ok(new LoginResponse(new UserDto(user.Id, user.Username, user.Email), token.Value));
-    //}
+    [HttpPost("refresh-token")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorResponse))]
+    public async Task<IActionResult> RefreshTokenAsync([FromBody] RefreshTokenCommand command, CancellationToken cancellationToken)
+    {
+        (User user, Token token) = await mediator.Send(command, cancellationToken);
+
+        return Ok(new LoginResponse(
+            new UserDto(user.Id, user.Username, user.Email),
+            new TokenDto(token.Value, token.RefreshToken, token.ExpiresAt)));
+    }
 }
