@@ -39,7 +39,7 @@ public class LoginUserCommandHandlerTests
     }
 
     [Fact]
-    public async Task Handle_EmailIsNotYetValidated_ThrowsUnauthorizedAccessException()
+    public async Task Handle_EmailNotVerified_ThrowsUnauthorizedAccessException()
     {
         // Arrange
         LoginUserCommand command = new("email@example.com", "password");
