@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\shared\Shared.Common\Shared.Common.csproj" />
+    <ProjectReference Include="..\..\..\shared\Shared.Http\Shared.Http.csproj" />
     <ProjectReference Include="..\Authentication.Core\Authentication.Core.csproj" />
     <ProjectReference Include="..\Authentication.Infrastructure\Authentication.Infrastructure.csproj" />
   </ItemGroup>

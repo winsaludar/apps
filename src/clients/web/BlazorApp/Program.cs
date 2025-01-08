@@ -1,10 +1,13 @@
-using BlazorApp.Components;
+using BlazorApp.Registrars;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+builder.Services.AddRazorComponents().AddInteractiveServerComponents();
+builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddHttpClient();
+
+// Register our custom services
+builder.Services.AddRegistrarServices(builder.Configuration);
 
 var app = builder.Build();
 
