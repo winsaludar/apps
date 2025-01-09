@@ -1,9 +1,7 @@
-using BlazorApp.Registrars;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
-builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddBlazoredSessionStorage();
 builder.Services.AddHttpClient();
 
 // Register our custom services
@@ -19,9 +17,11 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// Note: The order of the middlewares here are important
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>()

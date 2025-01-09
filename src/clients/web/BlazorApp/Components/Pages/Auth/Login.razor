@@ -3,7 +3,7 @@
 @layout Layout.AuthLayout
 @inject IAuthenticationHttpClient authenticationHttpClient
 @inject NavigationManager navigationManager
-@inject ILocalStorageService localStorageService
+@inject ISessionStorageService sessionStorageService
 
 <PageTitle>APPS - Login</PageTitle>
 
@@ -63,7 +63,7 @@
             </div>
         </div>
 
-        <EditForm class="mx-auto max-w-xs" Model="@loginModel" OnValidSubmit="HandleLogin" FormName="loginForm">
+        <EditForm class="mx-auto max-w-xs" Model="@loginModel" OnValidSubmit="HandleLoginAsync" FormName="loginForm">
             <InputText class="w-full px-8 py-4 -lg font-medium border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
             type="email"
             placeholder="Email"
@@ -131,7 +131,7 @@
     private bool hasError = false;
     private List<string> errorMessages = new();
 
-    private async Task HandleLogin()
+    private async Task HandleLoginAsync()
     {
         var response = await authenticationHttpClient.LoginAsync(loginModel.Email, loginModel.Password);
         if (response is ErrorResponse)
@@ -142,8 +142,8 @@
         else
         {
             TokenDto token = ((LoginResponse)response).Token;
-            await localStorageService.SetItemAsync("authToken", token.Value);
-            await localStorageService.SetItemAsync("refreshToken", token.RefreshToken);
+            await sessionStorageService.SetItemAsync("authToken", token.Value);
+            await sessionStorageService.SetItemAsync("refreshToken", token.RefreshToken);
             navigationManager.NavigateTo("/");
         }
     }
