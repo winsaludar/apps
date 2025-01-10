@@ -1,12 +1,9 @@
 ﻿@page "/"
-@rendermode InteractiveServer
-@inherits Secured
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
-<p>Welcome to your new app.</p>
+<h1>Hello @User.Identity?.Name!</h1>
 
 @code {
-    
+    [CascadingParameter] public ClaimsPrincipal User { get; set; } = default!;
 }

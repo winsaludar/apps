@@ -1,25 +1,47 @@
 ﻿namespace Shared.Http.HttpClients;
 
-public class AuthenticationHttpClient(HttpClient httpClient, AuthenticationApiSettings authApiSettings) : IAuthenticationHttpClient
+public class AuthenticationHttpClient(
+    HttpClient httpClient, 
+    AuthenticationApiSettings authApiSettings) : IAuthenticationHttpClient
 {
-    private static readonly JsonSerializerOptions JsonSerializerOptions = new() { PropertyNameCaseInsensitive = true };
-
-    public async Task<BaseResponse> LoginAsync(string email, string password)
+    private const string FRIENDLY_ERROR = "Something went wrong, please try again later.";
+    private readonly JsonSerializerOptions _jsonSerializerOptions = new() { PropertyNameCaseInsensitive = true };
+    
+    public async Task<ClientResponse<TokenDto>> LoginAsync(string email, string password)
     {
-        var payload = new { email, password };
-        HttpResponseMessage? response = await httpClient.PostAsJsonAsync($"{authApiSettings.BaseUrl}{authApiSettings.LoginRoute}", payload);
-        if (response is null)
-            return new ErrorResponse(500, "Internal server error", ["Unable to call login api"]);
+        try
+        {
+            string url = $"{authApiSettings.BaseUrl}{authApiSettings.LoginRoute}";
+            var payload = new { email, password };
 
-        string responseContent = await response.Content.ReadAsStringAsync();
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync(url, payload);
+            string responseContent = await response.Content.ReadAsStringAsync();
+            BaseResponse? result = response.IsSuccessStatusCode
+                ? JsonSerializer.Deserialize<LoginResponse?>(responseContent, _jsonSerializerOptions)
+                : JsonSerializer.Deserialize<ErrorResponse?>(responseContent, _jsonSerializerOptions);
 
-        BaseResponse? result = response.IsSuccessStatusCode
-            ? JsonSerializer.Deserialize<LoginResponse?>(responseContent, JsonSerializerOptions)
-            : JsonSerializer.Deserialize<ErrorResponse?>(responseContent, JsonSerializerOptions);
-
-        if (result is null)
-            return new ErrorResponse(500, "Internal server error", ["Unable to parse login api response"]);
-
-        return result;
+            return result switch
+            {
+                ErrorResponse errorResult when !response.IsSuccessStatusCode => new ClientResponse<TokenDto>
+                {
+                    IsSuccessful = false,
+                    Errors = errorResult.Details
+                },
+                LoginResponse successResult => new ClientResponse<TokenDto>
+                {
+                    IsSuccessful = true,
+                    Data = successResult.Token
+                },
+                _ => new ClientResponse<TokenDto>
+                {
+                    IsSuccessful = false,
+                    Errors = [FRIENDLY_ERROR]
+                },
+            };
+        }
+        catch (Exception)
+        {
+            return new ClientResponse<TokenDto> { IsSuccessful = false, Errors = [FRIENDLY_ERROR] };
+        }
     }
 }

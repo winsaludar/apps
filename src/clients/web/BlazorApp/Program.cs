@@ -1,8 +1,11 @@
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
-builder.Services.AddBlazoredSessionStorage();
+builder.Services.AddBlazoredSessionStorage().AddBlazoredLocalStorage();
 builder.Services.AddHttpClient();
+
+builder.Services.AddAuthentication();
+builder.Services.AddCascadingAuthenticationState();
 
 // Register our custom services
 builder.Services.AddRegistrarServices(builder.Configuration);
@@ -25,6 +28,6 @@ app.UseAuthorization();
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+   .AddInteractiveServerRenderMode();
 
 app.Run();

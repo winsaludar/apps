@@ -2,5 +2,5 @@
 
 public interface IAuthenticationHttpClient
 {
-    Task<BaseResponse> LoginAsync(string email, string password);
+    Task<ClientResponse<TokenDto>> LoginAsync(string email, string password);
 }

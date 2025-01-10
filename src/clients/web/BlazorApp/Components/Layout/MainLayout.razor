@@ -1,4 +1,6 @@
 ﻿@inherits LayoutComponentBase
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
 
 <div class="page">
     <div class="sidebar">
@@ -7,11 +9,13 @@
 
     <main>
         <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+            <NavLink href="/logout">Logout</NavLink>
         </div>
 
         <article class="content px-4">
-            @Body
+            <CascadingValue Value="User">
+                @Body
+            </CascadingValue>
         </article>
     </main>
 </div>
@@ -21,3 +25,23 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+
+@code {
+    private ClaimsPrincipal User { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Not accessible by unauthenticated users; Redirect to login page
+        var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = state.User;
+
+        if (user is null || user.Identity is null || !user.Identity.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+        else
+        {
+            User = user;
+        }
+    }
+}
