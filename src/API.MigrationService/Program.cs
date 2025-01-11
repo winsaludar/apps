@@ -1,9 +1,3 @@
-using API.MigrationService;
-using Authentication.Infrastructure;
-using Authentication.Infrastructure.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-
 var builder = Host.CreateApplicationBuilder(args);
 
 builder.AddServiceDefaults();
@@ -19,7 +13,9 @@ void SetupDbContext()
 {
     builder.Services.AddDbContext<AuthenticationDbContext>(options =>
     {
-        string connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__db") ?? throw new InvalidOperationException("Database connection string not found");
+        string connectionStringKey = builder.Configuration.GetConnectionString("DefaultConnection") ?? "";
+        string connectionString = Environment.GetEnvironmentVariable(connectionStringKey)
+            ?? throw new InvalidOperationException("Database connection string not found");
         options.UseNpgsql(connectionString);
     }, ServiceLifetime.Scoped);
 

@@ -9,9 +9,10 @@ public class ServiceRegistrar : IRegistrar
 
         services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 
-        services.AddHttpClient<IAuthenticationHttpClient, AuthenticationHttpClient>(static client => 
+        services.AddHttpClient<IAuthenticationHttpClient, AuthenticationHttpClient>(client => 
         {
-            string? url = Environment.GetEnvironmentVariable("services__authentication-api__https__0") 
+            string urlKey = configuration.GetValue<string>("AuthenticationApiSettings:BaseUrl") ?? "";
+            string? url = Environment.GetEnvironmentVariable(urlKey) 
                 ?? throw new InvalidOperationException("Authentication API base address not found");
 
             client.BaseAddress = new(url);

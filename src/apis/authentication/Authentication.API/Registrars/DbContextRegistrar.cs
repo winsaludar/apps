@@ -4,7 +4,8 @@ public class DbContextRegistrar : IRegistrar
 {
     public void RegistrarService(IServiceCollection services, IConfiguration configuration)
     {
-        string connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__db")
+        string connectionStringKey = configuration.GetConnectionString("DefaultConnection") ?? "";
+        string connectionString = Environment.GetEnvironmentVariable(connectionStringKey)
             ?? throw new InvalidOperationException("Database connection string not found");
 
         services.AddDbContext<AuthenticationDbContext>(options => 
