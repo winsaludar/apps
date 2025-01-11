@@ -1,7 +1,9 @@
-﻿@page "/"
+﻿@page "/home"
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<p>Hello @UserContext?.User?.Identity?.Name!</p>
 
-Welcome to your new app.
+@code {
+    [CascadingParameter] public AuthenticationState? UserContext { get; set; }
+}

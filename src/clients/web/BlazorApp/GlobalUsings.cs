@@ -1,0 +1,15 @@
+﻿global using BlazorApp.Components;
+global using BlazorApp.Infrastructure.Providers;
+global using BlazorApp.Infrastructure.Settings;
+global using BlazorApp.Registrars;
+global using Blazored.LocalStorage;
+global using Blazored.SessionStorage;
+global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using Microsoft.AspNetCore.Components.Authorization;
+global using Shared.Common.Extensions;
+global using Shared.Common.Interfaces;
+global using Shared.Http.Dtos;
+global using Shared.Http.HttpClients;
+global using Shared.Http.Settings;
+global using System.IdentityModel.Tokens.Jwt;
+global using System.Security.Claims;

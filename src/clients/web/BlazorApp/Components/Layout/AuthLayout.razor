@@ -1,0 +1,11 @@
+﻿@inherits LayoutComponentBase
+
+<AuthorizeView>
+    <NotAuthorized>
+        <main class="min-h-screen bg-gray-900 text-gray-900 flex justify-center">
+            <section class="max-w-screen-xl m-0 sm:m-10 shadow sm:rounded-lg flex justify-center flex-1 bg-gray-100">
+                @Body
+            </section>
+        </main>
+    </NotAuthorized>
+</AuthorizeView>

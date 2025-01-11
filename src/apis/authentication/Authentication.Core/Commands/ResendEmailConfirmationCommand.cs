@@ -16,11 +16,12 @@ public class ResendEmailConfirmationCommandHandler(
             throw new BadRequestException("Email is already verified");
 
         // Generate token
-        string? emailToken = await tokenRepository.GenerateEmailConfirmationTokenAsync(existingUser) 
+        string? confirmationToken = await tokenRepository.GenerateEmailConfirmationTokenAsync(existingUser) 
             ?? throw new TokenException("Unable to generate email confirmation link");
 
         // Send email
-        await emailService.SendEmailConfirmation(existingUser.Email, emailToken, existingUser.Username);
+        string encodedToken = Uri.EscapeDataString(confirmationToken);
+        await emailService.SendEmailConfirmation(existingUser.Email, encodedToken, existingUser.Username);
 
         return Unit.Value;
     }

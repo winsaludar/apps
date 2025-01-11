@@ -1,7 +1,5 @@
-﻿global using Authentication.API.Dtos;
-global using Authentication.API.Middlewares;
+﻿global using Authentication.API.Middlewares;
 global using Authentication.API.Registrars;
-global using Authentication.API.Responses;
 global using Authentication.Core.Commands;
 global using Authentication.Core.Contracts;
 global using Authentication.Core.Models;
@@ -22,6 +20,7 @@ global using Shared.Common.Behaviors;
 global using Shared.Common.Exceptions;
 global using Shared.Common.Extensions;
 global using Shared.Common.Interfaces;
-global using Shared.Common.Responses;
+global using Shared.Http.Dtos;
+global using Shared.Http.Responses;
 global using System.Text;
 global using System.Text.Json;

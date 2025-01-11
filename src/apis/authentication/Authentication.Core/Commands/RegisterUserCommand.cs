@@ -26,10 +26,11 @@ public class RegisterUserCommandHandler(
         newUser.SetId(newId);
 
         // Send email confirmation link
-        string? emailToken = await tokenRepository.GenerateEmailConfirmationTokenAsync(newUser);
-        if (string.IsNullOrEmpty(emailToken))
-            throw new TokenException("Unable to generate email confirmation link");
-        await emailService.SendEmailConfirmation(newUser.Email, emailToken, newUser.Username);
+        string? confirmationToken = await tokenRepository.GenerateEmailConfirmationTokenAsync(newUser)
+            ?? throw new TokenException("Unable to generate email confirmation link");
+
+        string encodedToken = Uri.EscapeDataString(confirmationToken);
+        await emailService.SendEmailConfirmation(newUser.Email, encodedToken, newUser.Username);
 
         return newUser;
     }

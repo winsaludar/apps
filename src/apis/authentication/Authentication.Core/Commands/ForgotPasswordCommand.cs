@@ -16,12 +16,13 @@ public class ForgotPasswordCommandHandler(
             throw new BadRequestException("Email is not yet verified");
 
         // Generate token
-        string? emailToken = await tokenRepository.GeneratePasswordResetTokenAsync(existingUser);
-        if (string.IsNullOrEmpty(emailToken))
+        string? resetToken = await tokenRepository.GeneratePasswordResetTokenAsync(existingUser);
+        if (string.IsNullOrEmpty(resetToken))
             throw new TokenException("Unable to generate forgot password link");
 
         // Send email
-        await emailService.SendForgotPasswordUrl(existingUser.Email, emailToken, existingUser.Username);
+        string encodedToken = Uri.EscapeDataString(resetToken);
+        await emailService.SendForgotPasswordUrl(existingUser.Email, encodedToken, existingUser.Username);
 
         return Unit.Value;
     }

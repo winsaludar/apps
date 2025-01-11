@@ -1,0 +1,16 @@
+﻿@page "/"
+@layout Layout.EmptyLayout
+@inject NavigationManager NavManager
+
+<AuthorizeView>
+    <Authorized>
+        @{
+            NavManager.NavigateTo("/home");
+        }
+    </Authorized>
+    <NotAuthorized>
+        @{
+            NavManager.NavigateTo("/login");
+        }
+    </NotAuthorized>
+</AuthorizeView>

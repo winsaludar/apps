@@ -17,3 +17,6 @@
 /src/shared/Shared.Common/bin/Debug/net8.0
 /src/shared/Shared.Common/obj
 /src/apis/authentication/Authentication.API/appsettings.Development.json
+/src/clients/web/BlazorApp/appsettings.Development.json
+/src/shared/Shared.Http/obj
+/src/shared/Shared.Http/bin/Debug/net8.0

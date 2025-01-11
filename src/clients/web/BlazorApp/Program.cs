@@ -1,10 +1,14 @@
-using BlazorApp.Components;
-
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+// Register Blazor services
+builder.Services.AddRazorComponents().AddInteractiveServerComponents();
+builder.Services.AddBlazoredSessionStorage().AddBlazoredLocalStorage();
+builder.Services.AddHttpClient();
+builder.Services.AddAuthentication();
+builder.Services.AddCascadingAuthenticationState();
+
+// Register custom services
+builder.Services.AddRegistrarServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -16,12 +20,14 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// Note: The order of the middlewares here are important
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+   .AddInteractiveServerRenderMode();
 
 app.Run();

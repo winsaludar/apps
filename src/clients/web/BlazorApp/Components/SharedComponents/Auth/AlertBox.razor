@@ -1,0 +1,17 @@
+﻿<section class="relative w-full text-center px-4 py-3 rounded relative mb-16 @(HasClientResponse ? (HasError ? "bg-red-100 border border-red-400 text-red-700" : "bg-green-100 border border-green-400 text-green-700") : "")" role="alert">
+    @if (HasClientResponse && Messages.Any())
+    {
+        <ul class="block sm:inline">
+            @foreach (string message in Messages)
+            {
+                <li>@message</li>
+            }
+        </ul>
+    }
+</section>
+
+@code {
+    [Parameter] public bool HasClientResponse { get; set; }
+    [Parameter] public bool HasError { get; set; }
+    [Parameter] public IEnumerable<string> Messages { get; set; } = default!;
+}
