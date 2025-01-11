@@ -4,8 +4,9 @@ public class DbContextRegistrar : IRegistrar
 {
     public void RegistrarService(IServiceCollection services, IConfiguration configuration)
     {
-        string connectionString = configuration.GetConnectionString("DefaultConnection") ?? throw new Exception("No database connection string found");
-        
+        string connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__db")
+            ?? throw new InvalidOperationException("Database connection string not found");
+
         services.AddDbContext<AuthenticationDbContext>(options => 
         {
             options.UseNpgsql(connectionString)
