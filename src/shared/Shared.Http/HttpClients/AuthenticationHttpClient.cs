@@ -126,4 +126,50 @@ public class AuthenticationHttpClient(HttpClient httpClient, AuthenticationApiSe
             return new ClientResponse { IsSuccessful = false, Errors = [FRIENDLY_ERROR] };
         }
     }
+
+    public async Task<ClientResponse> ForgotPasswordAsync(string email)
+    {
+        try
+        {
+            string url = $"{authApiSettings.BaseUrl}{authApiSettings.ForgotPasswordRoute}";
+            var payload = new { email };
+
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync(url, payload);
+            string responseContent = await response.Content.ReadAsStringAsync();
+            BaseResponse? result = response.IsSuccessStatusCode
+                ? JsonSerializer.Deserialize<SuccessResponse?>(responseContent, _jsonSerializerOptions)
+                : JsonSerializer.Deserialize<ErrorResponse?>(responseContent, _jsonSerializerOptions);
+
+            return (result is ErrorResponse errorResult)
+                ? new() { IsSuccessful = false, Errors = errorResult.Details }
+                : new() { IsSuccessful = true };
+        }
+        catch (Exception)
+        {
+            return new ClientResponse { IsSuccessful = false, Errors = [FRIENDLY_ERROR] };
+        }
+    }
+
+    public async Task<ClientResponse> ResetPasswordAsync(string email, string password, string retypePassword, string token)
+    {
+        try
+        {
+            string url = $"{authApiSettings.BaseUrl}{authApiSettings.ResetPasswordRoute}";
+            var payload = new { email, password, retypePassword, token };
+
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync(url, payload);
+            string responseContent = await response.Content.ReadAsStringAsync();
+            BaseResponse? result = response.IsSuccessStatusCode
+                ? JsonSerializer.Deserialize<SuccessResponse?>(responseContent, _jsonSerializerOptions)
+                : JsonSerializer.Deserialize<ErrorResponse?>(responseContent, _jsonSerializerOptions);
+
+            return (result is ErrorResponse errorResult)
+                ? new() { IsSuccessful = false, Errors = errorResult.Details }
+                : new() { IsSuccessful = true };
+        }
+        catch (Exception)
+        {
+            return new ClientResponse { IsSuccessful = false, Errors = [FRIENDLY_ERROR] };
+        }
+    }
 }
