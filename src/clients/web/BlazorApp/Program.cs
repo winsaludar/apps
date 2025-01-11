@@ -1,13 +1,13 @@
 var builder = WebApplication.CreateBuilder(args);
 
+// Register Blazor services
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 builder.Services.AddBlazoredSessionStorage().AddBlazoredLocalStorage();
 builder.Services.AddHttpClient();
-
 builder.Services.AddAuthentication();
 builder.Services.AddCascadingAuthenticationState();
 
-// Register our custom services
+// Register custom services
 builder.Services.AddRegistrarServices(builder.Configuration);
 
 var app = builder.Build();

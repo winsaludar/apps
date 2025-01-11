@@ -1,9 +1,9 @@
-﻿@page "/"
+﻿@page "/home"
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello @User.Identity?.Name!</h1>
+<p>Hello @UserContext?.User?.Identity?.Name!</p>
 
 @code {
-    [CascadingParameter] public ClaimsPrincipal User { get; set; } = default!;
+    [CascadingParameter] public AuthenticationState? UserContext { get; set; }
 }

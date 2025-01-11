@@ -1,11 +1,11 @@
 ﻿@page "/logout"
-@inject AuthenticationStateProvider AuthenticationStateProvider
-@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthProvider
+@inject NavigationManager NavManager
 
 @code {
-    protected override void OnInitialized()
+    protected override async void OnInitialized()
     {
-        ((CustomAuthenticationStateProvider)AuthenticationStateProvider).LogoutUser();
-        NavigationManager.NavigateTo("/login");
+        await ((CustomAuthenticationStateProvider)AuthProvider).LogoutUser();
+        NavManager.NavigateTo("/login");
     }
 }

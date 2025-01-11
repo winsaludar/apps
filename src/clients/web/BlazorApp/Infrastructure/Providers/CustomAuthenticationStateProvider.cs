@@ -14,7 +14,7 @@ public class CustomAuthenticationStateProvider(
         return new AuthenticationState(user);
     }
 
-    public async void AuthenticateUser(TokenDto token)
+    public async Task AuthenticateUser(TokenDto token)
     {
         await localStorageService.SetItemAsync(appSettings.TokenName, token.Value);
         await localStorageService.SetItemAsync(appSettings.RefreshTokenName, token.RefreshToken);
@@ -24,9 +24,11 @@ public class CustomAuthenticationStateProvider(
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
     }
 
-    public async void LogoutUser()
+    public async Task LogoutUser()
     {
         await localStorageService.RemoveItemAsync(appSettings.TokenName);
+        await localStorageService.RemoveItemAsync(appSettings.RefreshTokenName);
+
         ClaimsIdentity identity = new();
         ClaimsPrincipal user = new(identity);
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));

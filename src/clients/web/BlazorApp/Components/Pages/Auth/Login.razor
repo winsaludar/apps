@@ -1,8 +1,8 @@
 ﻿@page "/login"
 @layout Layout.AuthLayout
 @inject IAuthenticationHttpClient HttpClient
-@inject AuthenticationStateProvider AuthenticationStateProvider
-@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthProvider
+@inject NavigationManager NavManager
 
 <PageTitle>APPS - Login</PageTitle>
 
@@ -149,8 +149,8 @@
         }
         else
         {
-            ((CustomAuthenticationStateProvider)AuthenticationStateProvider).AuthenticateUser(response.Data);
-            NavigationManager.NavigateTo("/");
+            await ((CustomAuthenticationStateProvider)AuthProvider).AuthenticateUser(response.Data);
+            NavManager.NavigateTo("/");
         }
     }
 

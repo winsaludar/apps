@@ -1,47 +1,30 @@
 ﻿@inherits LayoutComponentBase
-@inject AuthenticationStateProvider AuthenticationStateProvider
-@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthProvider
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<AuthorizeView Context="UserContext">
+    <Authorized>
+        <div class="page">
+            <div class="sidebar">
+                <NavMenu />
+            </div>
 
-    <main>
-        <div class="top-row px-4">
-            <NavLink href="/logout">Logout</NavLink>
+            <main>
+                <div class="top-row px-4">
+                    <NavLink href="/logout">Logout</NavLink>
+                </div>
+
+                <article class="content px-4">
+                    <CascadingValue Value="UserContext">
+                        @Body
+                    </CascadingValue>
+                </article>
+            </main>
         </div>
 
-        <article class="content px-4">
-            <CascadingValue Value="User">
-                @Body
-            </CascadingValue>
-        </article>
-    </main>
-</div>
-
-<div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
-</div>
-
-@code {
-    private ClaimsPrincipal User { get; set; } = new();
-
-    protected override async Task OnInitializedAsync()
-    {
-        // Not accessible by unauthenticated users; Redirect to login page
-        var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = state.User;
-
-        if (user is null || user.Identity is null || !user.Identity.IsAuthenticated)
-        {
-            NavigationManager.NavigateTo("/login");
-        }
-        else
-        {
-            User = user;
-        }
-    }
-}
+        <div id="blazor-error-ui">
+            An unhandled error has occurred.
+            <a href="" class="reload">Reload</a>
+            <a class="dismiss">🗙</a>
+        </div>
+    </Authorized>
+</AuthorizeView>

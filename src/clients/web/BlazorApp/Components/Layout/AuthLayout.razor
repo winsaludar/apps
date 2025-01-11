@@ -1,22 +1,11 @@
 ﻿@inherits LayoutComponentBase
-@inject AuthenticationStateProvider AuthenticationStateProvider
-@inject NavigationManager NavigationManager
 
-<main class="min-h-screen bg-gray-900 text-gray-900 flex justify-center">
-    <section class="max-w-screen-xl m-0 sm:m-10 shadow sm:rounded-lg flex justify-center flex-1 bg-gray-100">
-        @Body
-    </section>
-</main>
-
-@code {
-    protected override async Task OnInitializedAsync()
-    {
-        // Not accessible by logged-in user; Redirect to home page
-        var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = state.User;
-        if (user is not null && user.Identity is not null && user.Identity.IsAuthenticated)
-        {
-            NavigationManager.NavigateTo("/");
-        }
-    }
-}
+<AuthorizeView>
+    <NotAuthorized>
+        <main class="min-h-screen bg-gray-900 text-gray-900 flex justify-center">
+            <section class="max-w-screen-xl m-0 sm:m-10 shadow sm:rounded-lg flex justify-center flex-1 bg-gray-100">
+                @Body
+            </section>
+        </main>
+    </NotAuthorized>
+</AuthorizeView>
