@@ -140,22 +140,31 @@
         ResetUI();
         isLoading = true;
 
-        ClientResponse<string> response = await HttpClient.RegisterAsync(registerModel.Username, registerModel.Email, registerModel.Password, registerModel.RetypePassword);
-        if (!response.IsSuccessful || response.Data is null)
+        ClientResponse response = await HttpClient.RegisterAsync(registerModel.Username, registerModel.Email, registerModel.Password, registerModel.RetypePassword);
+        if (!response.IsSuccessful)
         {
             hasClientResponse = true;
             hasError = true;
             messages = response.Errors;
             isLoading = false;
+            return;
         }
-        else
+
+        string? userId = (response as ClientResponse<string>)?.Data;
+        if (string.IsNullOrEmpty(userId))
         {
             hasClientResponse = true;
-            hasError = false;
-            messages = ["Registered successful! Please check your email inbox/spam folder for the validation link"];
+            hasError = true;
+            messages = response.Errors;
             isLoading = false;
-            registerModel = new();
+            return;
         }
+
+        hasClientResponse = true;
+        hasError = false;
+        messages = ["Registered successful! Please check your email inbox/spam folder for the validation link"];
+        isLoading = false;
+        registerModel = new();
     }
 
     private void ResetUI()

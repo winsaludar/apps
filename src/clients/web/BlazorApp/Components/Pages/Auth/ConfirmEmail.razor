@@ -1,0 +1,84 @@
+﻿@page "/confirm-email"
+@layout Layout.AuthLayout
+@inject IAuthenticationHttpClient HttpClient
+
+@{
+    string colorClass = !hasError ? "green" : "red";
+} 
+
+<div class="flex flex-col items-center justify-center w-full max-w-2xl text-center mx-auto">
+    <div class="flex items-center justify-center w-24 h-24 mx-auto mb-8 bg-@(colorClass)-100 rounded-full">
+        <svg class="w-12 h-12 text-@(colorClass)-600"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24">
+            <path strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d=@(!hasError ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12" )></path>
+        </svg>
+    </div>
+
+    <h1 class="mb-8 text-4xl font-extrabold text-@(colorClass)-500">
+        @headerText
+    </h1>
+
+    <div class="p-6 rounded-lg">
+        <p class="text-lg font-medium text-black">@subText</p>
+    </div>
+
+    <div class="pt-8 border-t border-gray-100">
+        <p class="text-lg text-gray-700">
+            Have questions? Contact us at:
+        </p>
+        <a href="mailto: #"
+        class="inline-block mt-2 text-xl font-medium text-blue-600 transition-colors duration-200 hover:text-blue-800">
+            #
+        </a>
+    </div>
+
+    <div class="mt-12">
+        <a href="@buttonLink" class="inline-block px-8 py-4 text-lg font-semibold text-white transition-colors duration-200 bg-@(colorClass)-600 rounded-lg hover:bg-@(colorClass)-700">
+            @buttonName
+        </a>
+    </div>
+</div>
+
+@code {
+    private bool hasError = false;
+    private string? headerText;
+    private string? subText;
+    private string? buttonName;
+    private string? buttonLink;
+
+    [SupplyParameterFromQuery]
+    [Parameter]
+    public string Email { get; set; } = default!;
+
+    [SupplyParameterFromQuery()]
+    [Parameter]
+    public string Token { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ClientResponse response = await HttpClient.ConfirmEmailAsync(Email, Token);
+        // isRequestMade = true;
+
+        if (!response.IsSuccessful)
+        {
+            hasError = true;
+            headerText = "Invalid validation link!";
+            subText = "Please request a new validation link.";
+            buttonName = "Request Email Confirmation Link";
+            buttonLink = "/request-email-confirmation";
+        }
+        else
+        {
+            hasError = false;
+            headerText = "Email Confirmed!";
+            subText = "You can now use your email address to login.";
+            buttonName = "Return to Login";
+            buttonLink = "/login";
+        }
+    }
+}

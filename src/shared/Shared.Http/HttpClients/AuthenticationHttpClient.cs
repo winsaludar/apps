@@ -4,8 +4,8 @@ public class AuthenticationHttpClient(HttpClient httpClient, AuthenticationApiSe
 {
     private const string FRIENDLY_ERROR = "Something went wrong, please try again later.";
     private readonly JsonSerializerOptions _jsonSerializerOptions = new() { PropertyNameCaseInsensitive = true };
-    
-    public async Task<ClientResponse<TokenDto>> LoginAsync(string email, string password)
+
+    public async Task<ClientResponse> LoginAsync(string email, string password)
     {
         try
         {
@@ -39,11 +39,11 @@ public class AuthenticationHttpClient(HttpClient httpClient, AuthenticationApiSe
         }
         catch (Exception)
         {
-            return new ClientResponse<TokenDto> { IsSuccessful = false, Errors = [FRIENDLY_ERROR] };
+            return new ClientResponse { IsSuccessful = false, Errors = [FRIENDLY_ERROR] };
         }
     }
 
-    public async Task<ClientResponse<string>> RegisterAsync(string username, string email, string password, string retypePassword)
+    public async Task<ClientResponse> RegisterAsync(string username, string email, string password, string retypePassword)
     {
         try
         {
@@ -74,6 +74,29 @@ public class AuthenticationHttpClient(HttpClient httpClient, AuthenticationApiSe
                     Errors = [FRIENDLY_ERROR]
                 },
             };
+        }
+        catch (Exception)
+        {
+            return new ClientResponse<string> { IsSuccessful = false, Errors = [FRIENDLY_ERROR] };
+        }
+    }
+
+    public async Task<ClientResponse> ConfirmEmailAsync(string email, string token)
+    {
+        try
+        {
+            string url = $"{authApiSettings.BaseUrl}{authApiSettings.ConfirmEmailRoute}";
+            var payload = new { email, token };
+
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync(url, payload);
+            string responseContent = await response.Content.ReadAsStringAsync();
+            BaseResponse? result = response.IsSuccessStatusCode
+                ? JsonSerializer.Deserialize<SuccessResponse?>(responseContent, _jsonSerializerOptions)
+                : JsonSerializer.Deserialize<ErrorResponse?>(responseContent, _jsonSerializerOptions);
+
+            return (result is ErrorResponse errorResult)
+                ? new() { IsSuccessful = false, Errors = errorResult.Details }
+                : new() { IsSuccessful = true };
         }
         catch (Exception)
         {
