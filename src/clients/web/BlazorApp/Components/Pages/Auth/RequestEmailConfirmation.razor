@@ -1,0 +1,89 @@
+﻿@page "/request-email-confirmation"
+@layout Layout.AuthLayout
+@inject IAuthenticationHttpClient HttpClient
+
+<PageTitle>APPS - Request Email Confirmation</PageTitle>
+
+<article class="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
+    <section class="mt-12 flex flex-col items-center">
+        <AlertBox HasClientResponse="@hasClientResponse" HasError="@hasError" Messages="@messages" />
+
+        <h1 class="text-2xl xl:text-3xl font-extrabold text-center">
+            Request for a new email confirmation link
+        </h1>
+
+        <EditForm class="w-full mx-auto mt-12" Model="requestModel" OnSubmit="HandleSubmitAsync" FormName="requestEmailConfirmationForm">
+            <InputText class="w-full px-8 py-4 -lg font-medium border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+            type="email"
+            placeholder="Email"
+            required
+            @bind-Value="@requestModel.Email" />
+            <button class="mt-5 tracking-wide font-semibold bg-orange-500 text-gray-100 w-full py-4 rounded-lg hover:bg-orange-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+            type="submit">
+                @if (isLoading)
+                {
+                    <LoaderIcon />
+                }
+                <span class="ml-3">@(isLoading ? "Requesting..." : "Send")</span>
+            </button>
+        </EditForm>
+
+        <div class="my-12 text-sm text-center">
+            <p class="text-gray-600">
+                <NavLink href="/register" class="inline-block px-4 py-2 form-semibold hover:text-orange-500 transition-all duration-300 ease-in-out focus:shadow-outline focus:outline-none">
+                    No account yet? Register now
+                </NavLink>
+            </p>
+            <p class="text-gray-600">
+                <NavLink href="/login" class="inline-block px-4 py-2 form-semibold hover:text-orange-500 transition-all duration-300 ease-in-out focus:shadow-outline focus:outline-none">
+                    Already verified? Login here
+                </NavLink>
+            </p>
+        </div>
+    </section>
+</article>
+
+<Sidebar BackgroundImage="/placeholder/request-placeholder.jpg" />
+
+@code {
+    private RequestEmailConfirmationModel requestModel = new();
+    private bool hasClientResponse = false;
+    private bool hasError = false;
+    private IEnumerable<string> messages = new List<string>();
+    private bool isLoading = false;
+
+    public async Task HandleSubmitAsync()
+    {
+        ResetUI();
+        isLoading = true;
+
+        ClientResponse response =  await HttpClient.ResendEmailConfirmationAsync(requestModel.Email);
+        if (!response.IsSuccessful)
+        {
+            hasClientResponse = true;
+            hasError = true;
+            messages = response.Errors;
+
+        }
+        else
+        {
+            hasClientResponse = true;
+            hasError = false;
+            messages = ["Please check your email inbox/spam folder for the validation link"];
+        }
+
+        isLoading = false;
+    }
+
+    private void ResetUI()
+    {
+        hasClientResponse = false;
+        hasError = false;
+        messages = [];
+    }
+
+    public class RequestEmailConfirmationModel
+    {
+        public string Email { get; set; } = default!;
+    }
+}

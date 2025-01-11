@@ -1,6 +1,9 @@
 ﻿@page "/confirm-email"
 @layout Layout.AuthLayout
 @inject IAuthenticationHttpClient HttpClient
+@inject ApplicationSettings AppSettings
+
+<PageTitle>APPS - Confirm Email</PageTitle>
 
 @{
     string colorClass = !hasError ? "green" : "red";
@@ -31,9 +34,9 @@
         <p class="text-lg text-gray-700">
             Have questions? Contact us at:
         </p>
-        <a href="mailto: #"
+        <a href="mailto: @AppSettings.ContactUsEmail"
         class="inline-block mt-2 text-xl font-medium text-blue-600 transition-colors duration-200 hover:text-blue-800">
-            #
+            @AppSettings.ContactUsEmail
         </a>
     </div>
 

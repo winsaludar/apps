@@ -77,7 +77,7 @@ public class AuthenticationHttpClient(HttpClient httpClient, AuthenticationApiSe
         }
         catch (Exception)
         {
-            return new ClientResponse<string> { IsSuccessful = false, Errors = [FRIENDLY_ERROR] };
+            return new ClientResponse { IsSuccessful = false, Errors = [FRIENDLY_ERROR] };
         }
     }
 
@@ -100,7 +100,30 @@ public class AuthenticationHttpClient(HttpClient httpClient, AuthenticationApiSe
         }
         catch (Exception)
         {
-            return new ClientResponse<string> { IsSuccessful = false, Errors = [FRIENDLY_ERROR] };
+            return new ClientResponse { IsSuccessful = false, Errors = [FRIENDLY_ERROR] };
+        }
+    }
+
+    public async Task<ClientResponse> ResendEmailConfirmationAsync(string email)
+    {
+        try
+        {
+            string url = $"{authApiSettings.BaseUrl}{authApiSettings.ResendEmailConfirmationRoute}";
+            var payload = new { email };
+
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync(url, payload);
+            string responseContent = await response.Content.ReadAsStringAsync();
+            BaseResponse? result = response.IsSuccessStatusCode
+                ? JsonSerializer.Deserialize<SuccessResponse?>(responseContent, _jsonSerializerOptions)
+                : JsonSerializer.Deserialize<ErrorResponse?>(responseContent, _jsonSerializerOptions);
+
+            return (result is ErrorResponse errorResult)
+                ? new() { IsSuccessful = false, Errors = errorResult.Details }
+                : new() { IsSuccessful = true };
+        }
+        catch (Exception)
+        {
+            return new ClientResponse { IsSuccessful = false, Errors = [FRIENDLY_ERROR] };
         }
     }
 }
