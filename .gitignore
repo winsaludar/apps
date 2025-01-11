@@ -25,6 +25,5 @@
 /src/aspire/Apps.ServiceDefaults/bin/Debug/net8.0
 /src/aspire/Apps.ServiceDefaults/obj
 /src/aspire/Apps.AppHost/appsettings.Development.json
-/src/API.MigrationService/obj
-/src/API.MigrationService/bin/Debug/net8.0
-/src/API.MigrationService/appsettings.Development.json
+/src/aspire/API.MigrationService/bin/Debug/net8.0
+/src/aspire/API.MigrationService/obj

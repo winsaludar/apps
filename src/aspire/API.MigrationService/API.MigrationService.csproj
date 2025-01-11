@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\apis\authentication\Authentication.Infrastructure\Authentication.Infrastructure.csproj" />
-    <ProjectReference Include="..\aspire\Apps.ServiceDefaults\Apps.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\..\apis\authentication\Authentication.Infrastructure\Authentication.Infrastructure.csproj" />
+    <ProjectReference Include="..\Apps.ServiceDefaults\Apps.ServiceDefaults.csproj" />
   </ItemGroup>
 </Project>
