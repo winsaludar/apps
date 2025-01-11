@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\aspire\Apps.ServiceDefaults\Apps.ServiceDefaults.csproj" />
     <ProjectReference Include="..\..\..\shared\Shared.Common\Shared.Common.csproj" />
     <ProjectReference Include="..\..\..\shared\Shared.Http\Shared.Http.csproj" />
     <ProjectReference Include="..\Authentication.Core\Authentication.Core.csproj" />

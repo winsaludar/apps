@@ -1,5 +1,8 @@
 var builder = WebApplication.CreateBuilder(args);
 
+// .NET Aspire Reference
+builder.AddServiceDefaults();
+
 // Register Blazor services
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 builder.Services.AddBlazoredSessionStorage().AddBlazoredLocalStorage();
@@ -11,6 +14,8 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddRegistrarServices(builder.Configuration);
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

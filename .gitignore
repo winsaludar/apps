@@ -20,3 +20,11 @@
 /src/clients/web/BlazorApp/appsettings.Development.json
 /src/shared/Shared.Http/obj
 /src/shared/Shared.Http/bin/Debug/net8.0
+/src/aspire/Apps.AppHost/bin/Debug/net8.0
+/src/aspire/Apps.AppHost/obj
+/src/aspire/Apps.ServiceDefaults/bin/Debug/net8.0
+/src/aspire/Apps.ServiceDefaults/obj
+/src/aspire/Apps.AppHost/appsettings.Development.json
+/src/API.MigrationService/obj
+/src/API.MigrationService/bin/Debug/net8.0
+/src/API.MigrationService/appsettings.Development.json

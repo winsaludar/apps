@@ -1,10 +1,14 @@
 var builder = WebApplication.CreateBuilder(args);
 
+// .NET Aspire Reference
+builder.AddServiceDefaults();
+
 builder.Services.AddRegistrarServices(builder.Configuration);
 builder.Services.AddControllers();
 AddMiddlewares(builder);
 
 var app = builder.Build();
+
 EnableMiddlewares(app);
 
 app.Run();
@@ -28,6 +32,9 @@ static void AddMiddlewares(WebApplicationBuilder builder)
 
 static void EnableMiddlewares(WebApplication app)
 {
+    // Enable .NET Aspire middlewares
+    app.MapDefaultEndpoints();
+
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {

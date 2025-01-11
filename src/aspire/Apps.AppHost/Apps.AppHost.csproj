@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsAspireHost>true</IsAspireHost>
+    <UserSecretsId>2c5aa118-44e6-4631-9b4a-71481931c574</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="8.2.2" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="8.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\API.MigrationService\API.MigrationService.csproj" />
+    <ProjectReference Include="..\..\apis\authentication\Authentication.API\Authentication.API.csproj" />
+    <ProjectReference Include="..\..\clients\web\BlazorApp\BlazorApp.csproj" />
+  </ItemGroup>
+
+</Project>

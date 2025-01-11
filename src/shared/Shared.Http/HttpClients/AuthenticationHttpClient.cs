@@ -4,10 +4,9 @@ public class AuthenticationHttpClient(HttpClient httpClient, AuthenticationApiSe
 {
     public async Task<ClientResponse> LoginAsync(string email, string password)
     {
-        string url = $"{authApiSettings.BaseUrl}{authApiSettings.LoginRoute}";
         var payload = new { email, password };
 
-        return await PostAsJsonAsync<LoginResponse>(url, payload, (response) =>
+        return await PostAsJsonAsync<LoginResponse>(authApiSettings.LoginRoute, payload, (response) =>
         {
             if (response is ErrorResponse errorResponse)
             {
@@ -23,10 +22,9 @@ public class AuthenticationHttpClient(HttpClient httpClient, AuthenticationApiSe
 
     public async Task<ClientResponse> RegisterAsync(string username, string email, string password, string retypePassword)
     {
-        string url = $"{authApiSettings.BaseUrl}{authApiSettings.RegisterRoute}";
         var payload = new { username, email, password, retypePassword };
 
-        return await PostAsJsonAsync<RegisterResponse>(url, payload, (response) => 
+        return await PostAsJsonAsync<RegisterResponse>(authApiSettings.RegisterRoute, payload, (response) => 
         {
             if (response is ErrorResponse errorResponse)
             {
@@ -42,33 +40,25 @@ public class AuthenticationHttpClient(HttpClient httpClient, AuthenticationApiSe
 
     public async Task<ClientResponse> ConfirmEmailAsync(string email, string token)
     {
-        string url = $"{authApiSettings.BaseUrl}{authApiSettings.ConfirmEmailRoute}";
         var payload = new { email, token };
-
-        return await PostAsJsonAsync(url, payload);
+        return await PostAsJsonAsync(authApiSettings.ConfirmEmailRoute, payload);
     }
 
     public async Task<ClientResponse> ResendEmailConfirmationAsync(string email)
     {
-        string url = $"{authApiSettings.BaseUrl}{authApiSettings.ResendEmailConfirmationRoute}";
         var payload = new { email };
-
-        return await PostAsJsonAsync(url, payload);
+        return await PostAsJsonAsync(authApiSettings.ResendEmailConfirmationRoute, payload);
     }
 
     public async Task<ClientResponse> ForgotPasswordAsync(string email)
     {
-        string url = $"{authApiSettings.BaseUrl}{authApiSettings.ForgotPasswordRoute}";
         var payload = new { email };
-
-        return await PostAsJsonAsync(url, payload);
+        return await PostAsJsonAsync(authApiSettings.ForgotPasswordRoute, payload);
     }
 
     public async Task<ClientResponse> ResetPasswordAsync(string email, string password, string retypePassword, string token)
     {
-        string url = $"{authApiSettings.BaseUrl}{authApiSettings.ResetPasswordRoute}";
         var payload = new { email, password, retypePassword, token };
-
-        return await PostAsJsonAsync(url, payload);
+        return await PostAsJsonAsync(authApiSettings.ResetPasswordRoute, payload);
     }
 }
