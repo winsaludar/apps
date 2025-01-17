@@ -1,3 +1,3 @@
-# Applications
+# Random Apps Microservices
 
-Welcome to the Collection of Apps and Microservices repository! This project is a comprehensive suite of applications and microservices, primarily built using C# and Blazor. It showcases the integration of modern web development practices with robust backend microservices.
+A collection of microservices built with .NET and Blazor, following Domain-Driven Design (DDD) and Clean Architecture principles. Each microservice represents a unique, self-contained application showcasing best practices in modern software development.
