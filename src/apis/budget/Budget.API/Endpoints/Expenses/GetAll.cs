@@ -1,6 +1,6 @@
 ﻿namespace Budget.API.Endpoints.Expenses;
 
-internal sealed class Get : IEndpoint
+internal sealed class GetAll : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {

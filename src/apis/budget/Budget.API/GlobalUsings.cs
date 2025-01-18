@@ -1,9 +1,13 @@
 ﻿global using Budget.API.Endpoints;
 global using Budget.API.Middlewares;
 global using Budget.API.Registrars;
-global using Budget.Application.Expenses.Get;
+global using Budget.Application.Expenses;
+global using Budget.Application.Expenses.GetAll;
+global using Budget.Infrastructure.Database;
+global using Budget.Infrastructure.Expenses;
 global using MediatR;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using Microsoft.EntityFrameworkCore;
 global using Microsoft.IdentityModel.Tokens;
 global using Shared.Common.Behaviors;
 global using Shared.Common.Exceptions;

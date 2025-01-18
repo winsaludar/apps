@@ -1,2 +1,2 @@
-﻿global using Budget.Domain.Expenses;
+﻿global using Budget.Application.Expenses.GetAll;
 global using MediatR;

@@ -1,15 +1,8 @@
 ﻿namespace Budget.Domain.Expenses;
 
-public sealed class ExpenseCreatedDomainEvent : IDomainEvent
+public sealed class ExpenseCreatedDomainEvent(Guid expenseId, decimal amount, Guid categoryId) : IDomainEvent
 {
-    public Guid ExpenseId { get; }
-    public decimal Amount { get; }
-    public Guid CategoryId { get; }
-
-    public ExpenseCreatedDomainEvent(Guid expenseId,  decimal amount, Guid categoryId)
-    {
-        ExpenseId = expenseId;
-        Amount = amount;
-        CategoryId = categoryId;
-    }
+    public Guid ExpenseId { get; } = expenseId;
+    public decimal Amount { get; } = amount;
+    public Guid CategoryId { get; } = categoryId;
 }

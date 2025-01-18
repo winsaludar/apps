@@ -5,22 +5,27 @@ public sealed class ExpenseCategory : Entity
     public string Name { get; private set; } = default!;
     public string Description { get; private set; } = default!;
     public Guid? ParentCategoryId { get; private set; }
+    public ExpenseCategory? ParentCategory { get; private set; }
 
-    public ExpenseCategory(Guid userId, string name, string description, Guid? parentCategoryId = null)
+    // Navigation Property
+    public ICollection<ExpenseCategory> ChildCategories { get; private set; }
+
+    public ExpenseCategory(string name, string description, Guid createdBy, Guid? parentCategoryId = null)
     {
         Id = Guid.NewGuid();
         Name = name;
         Description = description;
         ParentCategoryId = parentCategoryId;
-        CreatedBy = userId;
+        CreatedBy = createdBy;
+        ChildCategories = [];
     }
 
-    public void Update(Guid userId, string name, string description, Guid? parentCategoryId = null)
+    public void Update(string name, string description, Guid updatedBy, Guid? parentCategoryId = null)
     {
         Name = name;
         Description = description;
         ParentCategoryId = parentCategoryId;
         UpdatedAt = DateTime.UtcNow;
-        UpdatedBy = userId;
+        UpdatedBy = updatedBy;
     }
 }

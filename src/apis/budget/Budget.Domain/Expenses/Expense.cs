@@ -6,28 +6,31 @@ public sealed class Expense : Entity
     public decimal Amount { get; private set; }
     public string Currency { get; private set; } = default!;
     public DateTime Date { get; private set; }
-    public ExpenseCategory Category { get; private set; } = default!;
     public string Description { get; private set; } = default!;
+    public Guid CategoryId { get; private set; }
 
-    public Expense(Guid userId, decimal amount, string currency, DateTime date, ExpenseCategory category, string description)
+    // Navigation Property
+    public ExpenseCategory Category { get; private set; } = default!;
+
+    public Expense(Guid userId, decimal amount, string currency, DateTime date, string description, Guid categoryId)
     {
         Id = Guid.NewGuid();
         UserId = userId;
         Amount = amount;
         Currency = currency;
         Date = date;
-        Category = category;
         Description = description;
+        CategoryId = categoryId;
         CreatedBy = userId;
     }
 
-    public void Update(Guid userId, decimal amount, string currency, DateTime date, ExpenseCategory category, string description)
+    public void Update(Guid userId, decimal amount, string currency, DateTime date, string description, Guid categoryId)
     {
         Amount = amount;
         Currency = currency;
         Date = date;
-        Category = category;
         Description = description;
+        CategoryId = categoryId;
         UpdatedAt = DateTime.UtcNow;
         UpdatedBy = userId;
     }
