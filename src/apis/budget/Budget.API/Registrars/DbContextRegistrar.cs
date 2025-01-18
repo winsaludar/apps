@@ -13,5 +13,7 @@ public sealed class DbContextRegistrar : IRegistrar
             options.UseNpgsql(connectionString)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         }, ServiceLifetime.Scoped);
+
+        services.AddScoped<IBudgetDbContext, BudgetDbContext>();
     }
 }
