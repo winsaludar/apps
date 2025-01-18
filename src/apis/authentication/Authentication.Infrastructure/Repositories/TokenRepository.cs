@@ -8,8 +8,9 @@ public class TokenRepository(
 {
     public async Task<Token> GenerateJwtAsync(User user, Core.Models.RefreshToken? refreshToken = null)
     {
-        IEnumerable<Claim> authClaims = GetAuthClaims(user);   
-        JwtSecurityToken token = GetJwtSecurityToken(jwtSettings.Secret, jwtSettings.Issuer, jwtSettings.Audience, jwtSettings.ExpirationInMinutes, authClaims);
+        IEnumerable<Claim> authClaims = GetAuthClaims(user);
+        string audience = string.Join(',', jwtSettings.Audiences);
+        JwtSecurityToken token = GetJwtSecurityToken(jwtSettings.Secret, jwtSettings.Issuer, audience, jwtSettings.ExpirationInMinutes, authClaims);
 
         // Generate access token
         var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);

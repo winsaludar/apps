@@ -17,7 +17,7 @@ public class AuthenticationRegistrar : IRegistrar
             ValidateIssuer = true,
             ValidIssuer = jwtSettings.Issuer,
             ValidateAudience = true,
-            ValidAudience = jwtSettings.Audience,
+            ValidAudiences = jwtSettings.Audiences,
             ValidateLifetime = true,
             ClockSkew = TimeSpan.FromMinutes(1),
         };
