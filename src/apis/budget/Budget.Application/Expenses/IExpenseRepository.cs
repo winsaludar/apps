@@ -2,5 +2,6 @@
 
 public interface IExpenseRepository
 {
-    Task<List<ExpenseDto>> GetAllAsync(Guid userId);
+    Task<List<ExpenseSummaryDto>> GetAllAsync(Guid userId, CancellationToken cancellationToken);
+    Task<ExpenseDetailDto?> GetByIdAsync(Guid userId, Guid expenseId, CancellationToken cancellationToken);
 }

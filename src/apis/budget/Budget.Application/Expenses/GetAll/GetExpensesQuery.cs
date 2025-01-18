@@ -1,3 +1,3 @@
 ﻿namespace Budget.Application.Expenses.GetAll;
 
-public sealed record GetExpensesQuery(Guid UserId) : IRequest<List<ExpenseDto>> { }
+public sealed record GetExpensesQuery(Guid UserId) : IRequest<List<ExpenseSummaryDto>> { }

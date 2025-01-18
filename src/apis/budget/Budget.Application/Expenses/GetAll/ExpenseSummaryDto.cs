@@ -1,6 +1,6 @@
 ﻿namespace Budget.Application.Expenses.GetAll;
 
-public sealed record ExpenseDto(
+public sealed record ExpenseSummaryDto(
     Guid Id,
     Guid UserId,
     decimal Amount,

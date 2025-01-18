@@ -1,0 +1,18 @@
+﻿namespace Budget.API.Endpoints.Expenses;
+
+internal sealed class GetById : IEndpoint
+{
+    public void MapEndpoint(IEndpointRouteBuilder app)
+    {
+        app.MapGet("/expenses/{id:guid}", async (Guid id, IUserContext userContext, ISender sender) =>
+        {
+            ExpenseDetailDto expense = await sender.Send(new GetExpenseByIdQuery(userContext.UserId, id));
+            return Results.Ok(expense);
+        })
+        .WithName("GET Expense By Id")
+        .Produces<ExpenseSummaryDto>(StatusCodes.Status200OK)
+        .ProducesProblem(StatusCodes.Status401Unauthorized)
+        .Produces<ErrorResponse>(StatusCodes.Status404NotFound)
+        .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError);
+    }
+}
