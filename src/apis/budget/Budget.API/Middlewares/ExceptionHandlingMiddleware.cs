@@ -23,7 +23,7 @@ public class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddleware> lo
 
         (httpContext.Response.StatusCode, string message) = exception switch
         {
-            CreateExpenseException => (StatusCodes.Status400BadRequest, "Invalid input"),
+            ExpenseException => (StatusCodes.Status400BadRequest, "Invalid input"),
             BadRequestException => (StatusCodes.Status400BadRequest, "Invalid input"),
             UnauthorizedAccessException => (StatusCodes.Status401Unauthorized, "Unauthorized access"),
             NotFoundException => (StatusCodes.Status404NotFound, "Not found"),

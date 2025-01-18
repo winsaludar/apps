@@ -6,6 +6,7 @@ global using Budget.Application.Expenses;
 global using Budget.Application.Expenses.Create;
 global using Budget.Application.Expenses.GetAll;
 global using Budget.Application.Expenses.GetById;
+global using Budget.Domain.Expenses;
 global using Budget.Infrastructure.Authentication;
 global using Budget.Infrastructure.Database;
 global using Budget.Infrastructure.Expenses;

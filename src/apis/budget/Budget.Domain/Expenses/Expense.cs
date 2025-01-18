@@ -16,22 +16,54 @@ public sealed class Expense : Entity
     {
         Id = Guid.NewGuid();
         UserId = userId;
-        Amount = amount;
-        Currency = currency;
-        Date = date;
-        Description = description;
+        SetAmount(amount);
+        SetCurrency(currency);
+        SetDate(date);
+        SetDescription(description);
         CategoryId = categoryId;
         CreatedBy = userId;
     }
 
     public void Update(Guid userId, decimal amount, string currency, DateTime date, string description, Guid categoryId)
     {
-        Amount = amount;
-        Currency = currency;
-        Date = date;
-        Description = description;
+        SetAmount(amount);
+        SetCurrency(currency);
+        SetDate(date);
+        SetDescription(description);
         CategoryId = categoryId;
         UpdatedAt = DateTime.UtcNow;
         UpdatedBy = userId;
+    }
+
+    public void SetAmount(decimal amount)
+    {
+        if (amount <= 0)
+            throw new ExpenseException("Amount must be greater than zero");
+
+        Amount = amount;
+    }
+
+    public void SetCurrency(string currency)
+    {
+        if (string.IsNullOrEmpty(currency) || string.IsNullOrWhiteSpace(currency))
+            throw new ExpenseException("Currency cannot be empty");
+
+        Currency = currency;
+    }
+
+    public void SetDate(DateTime date)
+    {
+        if (date > DateTime.UtcNow)
+            throw new ExpenseException("Date cannot be in the future");
+
+        Date = date;
+    }
+
+    public void SetDescription(string description)
+    {
+        if (string.IsNullOrEmpty(description) || string.IsNullOrWhiteSpace(description))
+            throw new ExpenseException("Description cannot be empty");
+
+        Description = description;
     }
 }

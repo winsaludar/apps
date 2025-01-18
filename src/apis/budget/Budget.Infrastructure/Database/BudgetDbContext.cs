@@ -16,7 +16,7 @@ public sealed class BudgetDbContext(DbContextOptions<BudgetDbContext> options) :
     public async Task AddExpense(Expense expense) 
     {
         ExpenseCategory? category = await ExpensesCategories.FirstOrDefaultAsync(x => x.Id == expense.CategoryId) 
-            ?? throw new CreateExpenseException($"Invalid category id: {expense.CategoryId}");
+            ?? throw new ExpenseException($"Invalid category id: {expense.CategoryId}");
 
         Expenses.Add(expense);
     }
