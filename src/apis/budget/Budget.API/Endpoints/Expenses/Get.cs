@@ -4,15 +4,14 @@ internal sealed class Get : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("expenses", async () =>
+        app.MapGet("expenses", async (ISender sender, HttpContext httpContext, CancellationToken cancellation) =>
         {
-            List<object> data = [];
-            for (int i = 0; i < 10; i++)
-            {
-                data.Add(new { Id = i + 1, Name = $"Expense #{i + 1}" });
-            }
-
-            return Results.Ok(data);
+            string id = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "";
+            Guid userId = Guid.Parse(id);
+            
+            var result = await sender.Send(new GetExpensesQuery(userId), cancellation);
+            
+            return Results.Ok(result);
         });
     }
 }

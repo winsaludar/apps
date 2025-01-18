@@ -19,7 +19,7 @@
     <ProjectReference Include="..\..\..\aspire\Apps.ServiceDefaults\Apps.ServiceDefaults.csproj" />
     <ProjectReference Include="..\..\..\shared\Shared.Common\Shared.Common.csproj" />
     <ProjectReference Include="..\..\..\shared\Shared.Http\Shared.Http.csproj" />
-    <ProjectReference Include="..\Budget.Application\Budget.Application.csproj" />
+    <ProjectReference Include="..\Budget.Infrastructure\Budget.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
