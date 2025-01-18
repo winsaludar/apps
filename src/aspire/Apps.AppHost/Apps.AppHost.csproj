@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\apis\authentication\Authentication.API\Authentication.API.csproj" />
+    <ProjectReference Include="..\..\apis\budget\Budget.API\Budget.API.csproj" />
     <ProjectReference Include="..\..\clients\web\BlazorApp\BlazorApp.csproj" />
     <ProjectReference Include="..\API.MigrationService\API.MigrationService.csproj" />
   </ItemGroup>

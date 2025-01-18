@@ -27,3 +27,6 @@
 /src/aspire/Apps.AppHost/appsettings.Development.json
 /src/aspire/API.MigrationService/bin/Debug/net8.0
 /src/aspire/API.MigrationService/obj
+/src/apis/budget/Budget.API/obj
+/src/apis/budget/Budget.API/bin/Debug/net8.0
+/src/apis/budget/Budget.API/appsettings.Development.json
