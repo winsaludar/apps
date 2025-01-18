@@ -8,4 +8,4 @@ public sealed record ExpenseDto(
     string Description,
     DateTime Date,
     Guid CategoryId,
-    Guid CategoryName);
+    string CategoryName);

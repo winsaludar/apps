@@ -12,14 +12,17 @@ public class Worker(IServiceProvider serviceProvider, IHostApplicationLifetime h
         try
         {
             using var scope = serviceProvider.CreateScope();
-            var dbContext = scope.ServiceProvider.GetRequiredService<AuthenticationDbContext>();
+            var authDbContext = scope.ServiceProvider.GetRequiredService<AuthenticationDbContext>();
+            var budgetDbContext = scope.ServiceProvider.GetRequiredService<BudgetDbContext>();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
 
             // Apply pending migrations
-            await dbContext.Database.MigrateAsync(cancellationToken);
+            await authDbContext.Database.MigrateAsync(cancellationToken);
+            await budgetDbContext.Database.MigrateAsync(cancellationToken);
 
             // Seed database
             await SeedData.SeedUserAsync(userManager);
+            await SeedData.SeedExpensesAsync(budgetDbContext);
         }
         catch (Exception ex) 
         {

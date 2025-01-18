@@ -1,7 +1,6 @@
 ﻿namespace Budget.Infrastructure.Database;
 
-public sealed class BudgetDbContext(DbContextOptions<BudgetDbContext> options, IPublisher publisher) 
-    : DbContext(options)
+public sealed class BudgetDbContext(DbContextOptions<BudgetDbContext> options) : DbContext(options)
 {
     public DbSet<Expense> Expenses { get; set; }
     public DbSet<ExpenseCategory> ExpensesCategory { get; set;}

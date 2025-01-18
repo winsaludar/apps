@@ -11,7 +11,15 @@ host.Run();
 
 void SetupDbContext()
 {
+    // Register database context here...
     builder.Services.AddDbContext<AuthenticationDbContext>(options =>
+    {
+        string connectionStringKey = builder.Configuration.GetConnectionString("DefaultConnection") ?? "";
+        string connectionString = Environment.GetEnvironmentVariable(connectionStringKey)
+            ?? throw new InvalidOperationException("Database connection string not found");
+        options.UseNpgsql(connectionString);
+    }, ServiceLifetime.Scoped);
+    builder.Services.AddDbContext<BudgetDbContext>(options =>
     {
         string connectionStringKey = builder.Configuration.GetConnectionString("DefaultConnection") ?? "";
         string connectionString = Environment.GetEnvironmentVariable(connectionStringKey)
