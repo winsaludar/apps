@@ -15,8 +15,11 @@ static void AddMiddlewares(WebApplicationBuilder builder)
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+
     builder.Services.AddTransient<ExceptionHandlingMiddleware>();
+    builder.Services.AddTransient<LoggingMiddleware>();
 }
+
 static void EnableMiddlewares(WebApplication app)
 {
     // Configure the HTTP request pipeline.
@@ -25,6 +28,9 @@ static void EnableMiddlewares(WebApplication app)
         app.UseSwagger();
         app.UseSwaggerUI();
     }
+
+    app.UseMiddleware<ExceptionHandlingMiddleware>();
+    app.UseMiddleware<LoggingMiddleware>();
 
     app.UseHttpsRedirection();
     app.UseAuthentication();

@@ -28,6 +28,7 @@ static void AddMiddlewares(WebApplicationBuilder builder)
     builder.Services.AddSwaggerGen();
 
     builder.Services.AddTransient<ExceptionHandlingMiddleware>();
+    builder.Services.AddTransient<LoggingMiddleware>();
 }
 
 static void EnableMiddlewares(WebApplication app)
@@ -43,13 +44,11 @@ static void EnableMiddlewares(WebApplication app)
     }
 
     app.UseMiddleware<ExceptionHandlingMiddleware>();
+    app.UseMiddleware<LoggingMiddleware>();
 
     app.UseHttpsRedirection();
-
     app.UseRouting();
-
     app.UseAuthentication();
     app.UseAuthorization();
-
     app.MapControllers();
 }
