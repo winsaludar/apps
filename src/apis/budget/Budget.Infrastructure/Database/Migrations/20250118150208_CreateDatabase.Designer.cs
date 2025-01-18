@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Budget.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(BudgetDbContext))]
-    [Migration("20250118143145_CreateDatabase")]
+    [Migration("20250118150208_CreateDatabase")]
     partial class CreateDatabase
     {
         /// <inheritdoc />
