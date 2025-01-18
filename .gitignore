@@ -30,3 +30,9 @@
 /src/apis/budget/Budget.API/obj
 /src/apis/budget/Budget.API/bin/Debug/net8.0
 /src/apis/budget/Budget.API/appsettings.Development.json
+/src/apis/budget/Budget.Application/bin/Debug/net8.0
+/src/apis/budget/Budget.Application/obj
+/src/apis/budget/Budget.Domain/bin/Debug/net8.0
+/src/apis/budget/Budget.Domain/obj
+/src/apis/budget/Budget.Infrastructure/bin/Debug/net8.0
+/src/apis/budget/Budget.Infrastructure/obj
