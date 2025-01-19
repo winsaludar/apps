@@ -12,15 +12,15 @@ public sealed class Expense : Entity
     // Navigation Property
     public ExpenseCategory Category { get; private set; } = default!;
 
-    public Expense(Guid userId, decimal amount, string currency, DateTime date, string description, Guid categoryId)
+    public Expense(Guid id, Guid userId, decimal amount, string currency, DateTime date, string description, Guid categoryId)
     {
-        Id = Guid.NewGuid();
-        UserId = userId;
+        SetId(id);
+        SetUserId(userId);
         SetAmount(amount);
         SetCurrency(currency);
         SetDate(date);
         SetDescription(description);
-        CategoryId = categoryId;
+        SetCategoryId(categoryId);
         CreatedBy = userId;
     }
 
@@ -30,9 +30,17 @@ public sealed class Expense : Entity
         SetCurrency(currency);
         SetDate(date);
         SetDescription(description);
-        CategoryId = categoryId;
+        SetCategoryId(categoryId);
         UpdatedAt = DateTime.UtcNow;
         UpdatedBy = userId;
+    }
+
+    public void SetUserId(Guid userId)
+    {
+        if (userId == Guid.Empty)
+            throw new ExpenseException("Invalid user id");
+
+        UserId = userId;
     }
 
     public void SetAmount(decimal amount)
@@ -65,5 +73,21 @@ public sealed class Expense : Entity
             throw new ExpenseException("Description cannot be empty");
 
         Description = description;
+    }
+
+    public void SetCategoryId(Guid categoryId)
+    {
+        if (categoryId == Guid.Empty)
+            throw new ExpenseException("Invalid category id");
+
+        CategoryId = categoryId;
+    }
+
+    public void SetId(Guid id)
+    {
+        if (id == Guid.Empty)
+            throw new ExpenseException("Invalid expense id");
+
+        Id = id;
     }
 }

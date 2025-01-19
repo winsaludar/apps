@@ -7,7 +7,7 @@ public sealed class CreateExpenseCommandHandler(IBudgetDbContext dbContext) : IR
         Guid userId = Guid.Parse(request.UserId);
         DateTime expenseDate = DateTime.Parse(request.Date).ToUniversalTime();
         Guid categoryId = Guid.Parse(request.CategoryId);
-        Expense newExpense = new(userId, request.Amount, request.Currency, expenseDate, request.Description, categoryId);
+        Expense newExpense = new(Guid.NewGuid(), userId, request.Amount, request.Currency, expenseDate, request.Description, categoryId);
 
         await dbContext.AddExpense(newExpense);
         await dbContext.SaveChangesAsync(cancellationToken);

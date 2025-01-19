@@ -34,9 +34,9 @@ public static class SeedData
         ExpenseCategory apparelCategory = new("Apparel", "Apparel Category", UserId);
         dbContext.ExpensesCategories.AddRange([foodCategory, transportCategory, apparelCategory]);
 
-        Expense foodExpense = new(UserId, 500, "PHP", DateTime.Today.ToUniversalTime(), "Lunch", foodCategory.Id);
-        Expense transportExpense = new(UserId, 250, "PHP", DateTime.Today.ToUniversalTime(), "Grab Taxi", transportCategory.Id);
-        Expense apparelExpense = new(UserId, 1500, "PHP", DateTime.Today.ToUniversalTime(), "T-Shirt (Uniqlo)", apparelCategory.Id);
+        Expense foodExpense = new(Guid.NewGuid(), UserId, 500, "PHP", DateTime.Today.ToUniversalTime(), "Lunch", foodCategory.Id);
+        Expense transportExpense = new(Guid.NewGuid(), UserId, 250, "PHP", DateTime.Today.ToUniversalTime(), "Grab Taxi", transportCategory.Id);
+        Expense apparelExpense = new(Guid.NewGuid(), UserId, 1500, "PHP", DateTime.Today.ToUniversalTime(), "T-Shirt (Uniqlo)", apparelCategory.Id);
         dbContext.Expenses.AddRange([foodExpense, transportExpense, apparelExpense]);
 
         await dbContext.SaveChangesAsync();
