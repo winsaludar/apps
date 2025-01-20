@@ -49,6 +49,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budget.Domain", "apis\budge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budget.Infrastructure", "apis\budget\Budget.Infrastructure\Budget.Infrastructure.csproj", "{6ED9C721-4542-4325-A7C6-40982E93B55C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Budget", "Budget", "{E230146E-626F-4B52-BA72-9F22069BF6EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budget.UnitTests", "tests\budget\Budget.UnitTests\Budget.UnitTests.csproj", "{4689B986-9778-48CD-B08F-629CB52412D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +115,10 @@ Global
 		{6ED9C721-4542-4325-A7C6-40982E93B55C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6ED9C721-4542-4325-A7C6-40982E93B55C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6ED9C721-4542-4325-A7C6-40982E93B55C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4689B986-9778-48CD-B08F-629CB52412D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4689B986-9778-48CD-B08F-629CB52412D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4689B986-9778-48CD-B08F-629CB52412D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4689B986-9778-48CD-B08F-629CB52412D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -134,5 +142,7 @@ Global
 		{5F3595D4-2B63-488B-ACDF-D898B18E4B21} = {1B84BB48-FD0A-49ED-8EEA-8AC187929376}
 		{E29C6F5C-E398-472B-BDD0-BAC183D9ED39} = {1B84BB48-FD0A-49ED-8EEA-8AC187929376}
 		{6ED9C721-4542-4325-A7C6-40982E93B55C} = {1B84BB48-FD0A-49ED-8EEA-8AC187929376}
+		{E230146E-626F-4B52-BA72-9F22069BF6EC} = {1FC4E64F-9322-4354-83B4-DCCCA19AB6CA}
+		{4689B986-9778-48CD-B08F-629CB52412D6} = {E230146E-626F-4B52-BA72-9F22069BF6EC}
 	EndGlobalSection
 EndGlobal
