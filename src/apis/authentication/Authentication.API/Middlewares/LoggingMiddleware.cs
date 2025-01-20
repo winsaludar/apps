@@ -10,11 +10,6 @@ public class LoggingMiddleware(ILogger<LoggingMiddleware> logger) : IMiddleware
             context.Request.Path,
             context.Request.QueryString);
 
-        foreach (var header in context.Request.Headers)
-        {
-            logger.LogInformation("Request Header: {Key}: {Value}", header.Key, header.Value);
-        }
-
         await next(context);
 
         // Log response details
