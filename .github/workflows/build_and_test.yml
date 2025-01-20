@@ -23,11 +23,11 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      - name: Restore dependencies
-        run: dotnet restore
+      - name: Restore Dependencies
+        run: dotnet restore ./src/Apps.sln
 
-      - name: Build
-        run: dotnet build --no-restore
+      - name: Build Solution
+        run: dotnet build ./src/Apps.sln --no-restore
 
-      - name: Test
-        run: dotnet test --no-build --verbosity normal
+      - name: Run Test Cases
+        run: dotnet test ./src/Apps.sln --no-build --verbosity normal
