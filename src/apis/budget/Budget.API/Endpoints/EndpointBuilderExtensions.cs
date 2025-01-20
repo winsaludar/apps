@@ -1,4 +1,4 @@
-﻿namespace Budget.API.Registrars;
+﻿namespace Budget.API.Endpoints;
 
 public static class EndpointBuilderExtensions
 {

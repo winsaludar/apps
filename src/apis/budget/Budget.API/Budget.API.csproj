@@ -10,8 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.12">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
@@ -19,7 +25,7 @@
     <ProjectReference Include="..\..\..\aspire\Apps.ServiceDefaults\Apps.ServiceDefaults.csproj" />
     <ProjectReference Include="..\..\..\shared\Shared.Common\Shared.Common.csproj" />
     <ProjectReference Include="..\..\..\shared\Shared.Http\Shared.Http.csproj" />
-    <ProjectReference Include="..\Budget.Application\Budget.Application.csproj" />
+    <ProjectReference Include="..\Budget.Infrastructure\Budget.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

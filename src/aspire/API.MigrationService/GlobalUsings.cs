@@ -1,6 +1,8 @@
 ﻿global using API.MigrationService;
 global using Authentication.Infrastructure;
 global using Authentication.Infrastructure.Entities;
+global using Budget.Domain.Expenses;
+global using Budget.Infrastructure.Database;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.EntityFrameworkCore;
 global using OpenTelemetry.Trace;

@@ -18,6 +18,7 @@ static void AddMiddlewares(WebApplicationBuilder builder)
 
     builder.Services.AddTransient<ExceptionHandlingMiddleware>();
     builder.Services.AddTransient<LoggingMiddleware>();
+
 }
 
 static void EnableMiddlewares(WebApplication app)

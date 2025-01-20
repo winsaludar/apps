@@ -2,6 +2,8 @@
 
 public static class SeedData
 {
+    public static Guid UserId => new("2d730636-88cb-4424-bf69-29cdd1ee44f1");
+
     public static async Task SeedUserAsync(UserManager<AppUser> userManager)
     {
         string username = "wnsldr01";
@@ -13,7 +15,7 @@ public static class SeedData
 
         user = new AppUser
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = UserId.ToString(),
             UserName = username,
             Email = email,
             EmailConfirmed = true,
@@ -23,5 +25,20 @@ public static class SeedData
         };
 
         await userManager.CreateAsync(user, "Password_2025!");
+    }
+
+    public static async Task SeedExpensesAsync(BudgetDbContext dbContext)
+    {
+        ExpenseCategory foodCategory = new("Food", "Food Categories", UserId);
+        ExpenseCategory transportCategory = new("Transportation", "Transportation Category", UserId);
+        ExpenseCategory apparelCategory = new("Apparel", "Apparel Category", UserId);
+        dbContext.ExpensesCategories.AddRange([foodCategory, transportCategory, apparelCategory]);
+
+        Expense foodExpense = new(Guid.NewGuid(), UserId, 500, "PHP", DateTime.Today.ToUniversalTime(), "Lunch", foodCategory.Id);
+        Expense transportExpense = new(Guid.NewGuid(), UserId, 250, "PHP", DateTime.Today.ToUniversalTime(), "Grab Taxi", transportCategory.Id);
+        Expense apparelExpense = new(Guid.NewGuid(), UserId, 1500, "PHP", DateTime.Today.ToUniversalTime(), "T-Shirt (Uniqlo)", apparelCategory.Id);
+        dbContext.Expenses.AddRange([foodExpense, transportExpense, apparelExpense]);
+
+        await dbContext.SaveChangesAsync();
     }
 }

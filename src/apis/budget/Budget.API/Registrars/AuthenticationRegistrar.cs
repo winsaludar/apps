@@ -36,7 +36,7 @@ public class AuthenticationRegistrar : IRegistrar
             options.TokenValidationParameters = tokenValidationParameters;
         });
 
-        // Add authorization policy services
         services.AddAuthorization();
+        services.AddHttpContextAccessor();
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Authentication.Infrastructure;
 
-public class AuthenticationDbContext(DbContextOptions options) : IdentityDbContext<AppUser>(options)
+public class AuthenticationDbContext(DbContextOptions<AuthenticationDbContext> options) : IdentityDbContext<AppUser>(options)
 {
     public DbSet<Entities.RefreshToken> RefreshTokens { get; set; } = null!;
 
