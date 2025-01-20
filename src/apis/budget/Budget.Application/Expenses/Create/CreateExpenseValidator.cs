@@ -5,8 +5,7 @@ public sealed class CreateExpenseValidator : AbstractValidator<CreateExpenseComm
     public CreateExpenseValidator()
     {
         RuleFor(x => x.UserId)
-            .NotEmpty().WithMessage("User id cannot be empty")
-            .Must(x => Guid.TryParse(x, out _)).WithMessage("Invalid user id format");
+            .NotEmpty().WithMessage("User id cannot be empty");
 
         RuleFor(x => x.Amount)
             .NotEmpty().WithMessage("Amount cannot be empty")

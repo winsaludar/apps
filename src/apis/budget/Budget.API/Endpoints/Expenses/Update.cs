@@ -8,7 +8,7 @@ internal sealed class Update : IEndpoint
     {
         app.MapPut("expenses/{id:guid}", async (Guid id, UpdateExpenseRequest request, IUserContext userContext, ISender sender, CancellationToken cancellationToken) => 
         {
-            UpdateExpenseCommand command = new(id, userContext.UserId.ToString(), request.Amount, request.Currency, request.Date, request.Description, request.CategoryId);
+            UpdateExpenseCommand command = new(id, userContext.UserId, request.Amount, request.Currency, request.Date, request.Description, request.CategoryId);
             await sender.Send(command, cancellationToken);
             return Results.NoContent();
         })
