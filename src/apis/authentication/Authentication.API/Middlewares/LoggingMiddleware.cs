@@ -12,7 +12,7 @@ public class LoggingMiddleware(ILogger<LoggingMiddleware> logger) : IMiddleware
 
         foreach (var header in context.Request.Headers)
         {
-            logger.LogInformation("Request Header: {Key}: {Value}", header.Key, header.Value.ToString().RemoveNewLine());
+            logger.LogInformation("Request Header: {Key}: {Value}", header.Key.RemoveNewLine(), header.Value.ToString().RemoveNewLine());
         }
 
         await next(context);
