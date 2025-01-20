@@ -4,9 +4,9 @@ internal sealed class GetById : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("expenses/{id:guid}", async (Guid id, IUserContext userContext, ISender sender) =>
+        app.MapGet("expenses/{id:guid}", async (Guid id, IUserContext userContext, ISender sender, CancellationToken cancellationToken) =>
         {
-            ExpenseDetailDto expense = await sender.Send(new GetExpenseByIdQuery(userContext.UserId, id));
+            ExpenseDetailDto expense = await sender.Send(new GetExpenseByIdQuery(userContext.UserId, id), cancellationToken);
             return Results.Ok(expense);
         })
         .WithTags("Expenses")

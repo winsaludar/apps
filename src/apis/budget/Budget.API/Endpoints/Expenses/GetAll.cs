@@ -4,9 +4,9 @@ internal sealed class GetAll : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("expenses", async (IUserContext userContext, ISender sender, HttpContext httpContext, CancellationToken cancellation) =>
+        app.MapGet("expenses", async (IUserContext userContext, ISender sender, HttpContext httpContext, CancellationToken cancellationToken) =>
         {
-            List<ExpenseSummaryDto> expenses = await sender.Send(new GetExpensesQuery(userContext.UserId), cancellation);
+            List<ExpenseSummaryDto> expenses = await sender.Send(new GetExpensesQuery(userContext.UserId), cancellationToken);
             return Results.Ok(expenses);
         })
         .WithTags("Expenses")
