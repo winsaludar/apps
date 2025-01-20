@@ -9,6 +9,7 @@ internal sealed class GetById : IEndpoint
             ExpenseDetailDto expense = await sender.Send(new GetExpenseByIdQuery(userContext.UserId, id));
             return Results.Ok(expense);
         })
+        .WithTags("Expenses")
         .WithName("GetExpenseById")
         .Produces<ExpenseSummaryDto>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status401Unauthorized)

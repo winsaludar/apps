@@ -12,6 +12,7 @@ internal sealed class Update : IEndpoint
             await sender.Send(command, cancellationToken);
             return Results.NoContent();
         })
+        .WithTags("Expenses")
         .Produces(StatusCodes.Status204NoContent)
         .Produces<ErrorResponse>(StatusCodes.Status400BadRequest)
         .Produces<ErrorResponse>(StatusCodes.Status404NotFound)

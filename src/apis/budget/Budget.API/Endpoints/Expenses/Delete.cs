@@ -10,6 +10,7 @@ public class Delete : IEndpoint
             await sender.Send(command, cancellationToken);
             return Results.NoContent();
         })
+        .WithTags("Expenses")
         .Produces(StatusCodes.Status204NoContent)
         .Produces<ErrorResponse>(StatusCodes.Status404NotFound)
         .Produces(StatusCodes.Status401Unauthorized)

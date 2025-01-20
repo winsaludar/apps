@@ -9,6 +9,7 @@ internal sealed class GetAll : IEndpoint
             List<ExpenseSummaryDto> expenses = await sender.Send(new GetExpensesQuery(userContext.UserId), cancellation);
             return Results.Ok(expenses);
         })
+        .WithTags("Expenses")
         .Produces<ExpenseSummaryDto[]>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status401Unauthorized)
         .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError);

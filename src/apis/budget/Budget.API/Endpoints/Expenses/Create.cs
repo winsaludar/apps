@@ -16,6 +16,7 @@ internal sealed class Create : IEndpoint
 
             return Results.Created(locationUrl, result);
         })
+        .WithTags("Expenses")
         .Produces<SuccessResponse>(StatusCodes.Status201Created)
         .Produces<ErrorResponse>(StatusCodes.Status400BadRequest)
         .Produces(StatusCodes.Status401Unauthorized)
