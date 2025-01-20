@@ -4,6 +4,7 @@ global using Budget.API.Registrars;
 global using Budget.Application.Abstractions;
 global using Budget.Application.ExpenseCategories;
 global using Budget.Application.ExpenseCategories.Create;
+global using Budget.Application.ExpenseCategories.Delete;
 global using Budget.Application.ExpenseCategories.GetAll;
 global using Budget.Application.ExpenseCategories.GetById;
 global using Budget.Application.ExpenseCategories.Update;

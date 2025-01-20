@@ -70,7 +70,7 @@ public sealed class BudgetDbContext(DbContextOptions<BudgetDbContext> options) :
     {
         // Target category does not exist
         ExpenseCategory? dbCategory = await ExpenseCategories.FirstOrDefaultAsync(x => x.Id == expenseCategory.Id)
-            ?? throw new ExpenseException($"Invalid expense category id: {expenseCategory.Id}");
+            ?? throw new ExpenseException($"Invalid expense category id: {expenseCategory.Id}", HttpStatusCode.NotFound);
 
         // Different category with new updated name already exist
         if (await ExpenseCategories.AnyAsync(x => x.Id != expenseCategory.Id &&  x.Name.ToLower() == expenseCategory.Name.ToLower()))
@@ -86,6 +86,15 @@ public sealed class BudgetDbContext(DbContextOptions<BudgetDbContext> options) :
         dbCategory.Update(expenseCategory.Name, expenseCategory.Description, expenseCategory.CreatedBy, expenseCategory.ParentCategoryId);
         ExpenseCategories.Update(dbCategory);
     }
+
+    public async Task DeleteExpenseCategoryAsync(Guid expenseCategoryId)
+    {
+        ExpenseCategory? dbCategory = await ExpenseCategories.FirstOrDefaultAsync(x => x.Id == expenseCategoryId)
+            ?? throw new ExpenseException($"Invalid expense category id: {expenseCategoryId}", HttpStatusCode.NotFound);
+
+        ExpenseCategories.Remove(dbCategory);
+    }
+
 
     async Task IExpenseCategoryDbContext.SaveChangesAsync(CancellationToken cancellationToken)
     {
