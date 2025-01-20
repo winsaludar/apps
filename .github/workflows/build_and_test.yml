@@ -23,11 +23,18 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
+      - name: Install .NET Workloads
+        run: |
+          dotnet workloads install
+
+      - name: Restore .NET workloads
+        run: dotnet workload restore ./src/Apps.sln
+
       - name: Restore Dependencies
         run: dotnet restore ./src/Apps.sln
 
       - name: Build Solution
-        run: dotnet build ./src/Apps.sln --no-restore
+        run: dotnet build ./src/Apps.sln --no-restore --configuration Release
 
       - name: Run Test Cases
-        run: dotnet test ./src/Apps.sln --no-build --verbosity normal
+        run: dotnet test ./src/Apps.sln --no-build --configuration Release --verbosity normal
