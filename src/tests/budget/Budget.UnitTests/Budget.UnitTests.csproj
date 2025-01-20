@@ -33,9 +33,4 @@
     <ProjectReference Include="..\..\..\apis\budget\Budget.Infrastructure\Budget.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ExpenseCategories\Commands\" />
-    <Folder Include="ExpenseCategories\Validators\" />
-  </ItemGroup>
-
 </Project>
