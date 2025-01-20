@@ -12,7 +12,8 @@ public class LoggingMiddleware(ILogger<LoggingMiddleware> logger) : IMiddleware
 
         foreach (var header in context.Request.Headers)
         {
-            logger.LogInformation("Request Header: {Key}: {Value}", header.Key, header.Value);
+            string encodedValue = HttpUtility.HtmlEncode(header.Value);
+            logger.LogInformation("Request Header: {Key}: {Value}", header.Key, encodedValue);
         }
 
         await next(context);
