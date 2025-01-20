@@ -6,16 +6,17 @@ internal sealed class Create : IEndpoint
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("expenses", async (CreateExpenseRequest request, HttpContext httpContext, LinkGenerator linkGenerator, IUserContext userContext, ISender sender, CancellationToken cancelationToken) =>
+        app.MapPost("expenses", async (CreateExpenseRequest request, HttpContext httpContext, LinkGenerator linkGenerator, IUserContext userContext, ISender sender, CancellationToken cancellationToken) =>
         {
             CreateExpenseCommand command = new(userContext.UserId, request.Amount, request.Currency, request.Date, request.Description, request.CategoryId);
-            Guid newId = await sender.Send(command, cancelationToken);
+            Guid newId = await sender.Send(command, cancellationToken);
 
             var result = new { id = newId };
-            string? locationUrl = linkGenerator.GetPathByName("GetItemById", result);
+            string? locationUrl = linkGenerator.GetPathByName("GetExpenseById", result);
 
             return Results.Created(locationUrl, result);
         })
+        .WithTags("Expenses")
         .Produces<SuccessResponse>(StatusCodes.Status201Created)
         .Produces<ErrorResponse>(StatusCodes.Status400BadRequest)
         .Produces(StatusCodes.Status401Unauthorized)

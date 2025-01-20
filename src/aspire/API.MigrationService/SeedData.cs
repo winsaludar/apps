@@ -29,10 +29,10 @@ public static class SeedData
 
     public static async Task SeedExpensesAsync(BudgetDbContext dbContext)
     {
-        ExpenseCategory foodCategory = new("Food", "Food Categories", UserId);
-        ExpenseCategory transportCategory = new("Transportation", "Transportation Category", UserId);
-        ExpenseCategory apparelCategory = new("Apparel", "Apparel Category", UserId);
-        dbContext.ExpensesCategories.AddRange([foodCategory, transportCategory, apparelCategory]);
+        ExpenseCategory foodCategory = new(Guid.NewGuid(), "Food", "Food Categories", UserId);
+        ExpenseCategory transportCategory = new(Guid.NewGuid(), "Transportation", "Transportation Category", UserId);
+        ExpenseCategory apparelCategory = new(Guid.NewGuid(), "Apparel", "Apparel Category", UserId);
+        dbContext.ExpenseCategories.AddRange([foodCategory, transportCategory, apparelCategory]);
 
         Expense foodExpense = new(Guid.NewGuid(), UserId, 500, "PHP", DateTime.Today.ToUniversalTime(), "Lunch", foodCategory.Id);
         Expense transportExpense = new(Guid.NewGuid(), UserId, 250, "PHP", DateTime.Today.ToUniversalTime(), "Grab Taxi", transportCategory.Id);

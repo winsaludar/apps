@@ -8,7 +8,7 @@ public class UpdateExpenseCommandHandler(IExpenseDbContext dbContext) : IRequest
         Guid categoryId = Guid.Parse(request.CategoryId);
         Expense expense = new(request.ExpenseId, request.UserId, request.Amount, request.Currency, expenseDate, request.Description, categoryId);
 
-        await dbContext.UpdateExpense(expense);
+        await dbContext.UpdateExpenseAsync(expense);
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;

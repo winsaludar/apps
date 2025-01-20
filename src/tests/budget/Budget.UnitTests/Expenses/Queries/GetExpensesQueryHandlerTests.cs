@@ -24,6 +24,7 @@ public sealed class GetExpensesQueryHandlerTests
         // Assert
         _repository.Verify(x => x.GetAllAsync(It.IsAny<Guid>(), CancellationToken.None), Times.Once());
         Assert.IsType<List<ExpenseSummaryDto>>(result);
+        Assert.Empty(result);
     }
 
     [Fact]
@@ -43,6 +44,7 @@ public sealed class GetExpensesQueryHandlerTests
         // Assert
         _repository.Verify(x => x.GetAllAsync(It.IsAny<Guid>(), CancellationToken.None), Times.Once());
         Assert.IsType<List<ExpenseSummaryDto>>(result);
+        Assert.NotEmpty(result);
         Assert.Equal(3, result.Count);
     }
 }

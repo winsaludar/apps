@@ -1,4 +1,5 @@
-﻿global using Budget.Application.Abstractions;
+﻿global using Budget.Application.ExpenseCategories.GetAll;
+global using Budget.Application.ExpenseCategories.GetById;
 global using Budget.Application.Expenses.GetAll;
 global using Budget.Application.Expenses.GetById;
 global using Budget.Domain.Expenses;

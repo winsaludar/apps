@@ -11,27 +11,27 @@ public sealed class CreateExpenseCommandHandlerTests
     }
 
     [Fact]
-    public async Task Handle_ExpenseCategoryDoesNotExist_ThrowsExpenseException()
+    public async Task Handle_AddExpenseFails_ThrowsExpenseException()
     {
         // Arrange
         CreateExpenseCommand command = new(Guid.NewGuid(), 1000, "PHP", DateTime.UtcNow.ToShortDateString(), "Test Expense", Guid.NewGuid().ToString());
-        _dbContext.Setup(x => x.AddExpense(It.IsAny<Expense>()))
+        _dbContext.Setup(x => x.AddExpenseAsync(It.IsAny<Expense>()))
             .ThrowsAsync(new ExpenseException("Invalid expense category"));
 
         // Act
         await Assert.ThrowsAsync<ExpenseException>(() => _handler.Handle(command, CancellationToken.None));
 
         // Assert
-        _dbContext.Verify(x => x.AddExpense(It.IsAny<Expense>()),Times.Once());
+        _dbContext.Verify(x => x.AddExpenseAsync(It.IsAny<Expense>()),Times.Once());
         _dbContext.Verify(x => x.SaveChangesAsync(CancellationToken.None), Times.Never());
     }
 
     [Fact]
-    public async Task Handle_ExpenseDataIsValid_ReturnNewExpenseId()
+    public async Task Handle_AddExpenseSucceed_SaveChangesAndReturnNewId()
     {
         // Arrange
         CreateExpenseCommand command = new(Guid.NewGuid(), 1000, "PHP", DateTime.UtcNow.ToShortDateString(), "Test Expense", Guid.NewGuid().ToString());
-        _dbContext.Setup(x => x.AddExpense(It.IsAny<Expense>()));
+        _dbContext.Setup(x => x.AddExpenseAsync(It.IsAny<Expense>()));
         _dbContext.Setup(x => x.SaveChangesAsync(CancellationToken.None));
 
         // Act
@@ -40,7 +40,7 @@ public sealed class CreateExpenseCommandHandlerTests
         // Assert
         Assert.IsType<Guid>(result);
         Assert.NotEqual(Guid.Empty, result);
-        _dbContext.Verify(x => x.AddExpense(It.IsAny<Expense>()), Times.Once());
+        _dbContext.Verify(x => x.AddExpenseAsync(It.IsAny<Expense>()), Times.Once());
         _dbContext.Verify(x => x.SaveChangesAsync(CancellationToken.None), Times.Once());        
     }
 }

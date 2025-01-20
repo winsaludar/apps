@@ -6,5 +6,6 @@ public class ServiceRegistrar : IRegistrar
     {
         services.AddScoped<IUserContext, UserContext>();
         services.AddScoped<IExpenseRepository, ExpenseRepository>();
+        services.AddScoped<IExpenseCategoryRepository, ExpenseCategoryRepository>();
     }
 }

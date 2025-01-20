@@ -8,7 +8,7 @@ public sealed class CreateExpenseCommandHandler(IExpenseDbContext dbContext) : I
         Guid categoryId = Guid.Parse(request.CategoryId);
         Expense newExpense = new(Guid.NewGuid(), request.UserId, request.Amount, request.Currency, expenseDate, request.Description, categoryId);
 
-        await dbContext.AddExpense(newExpense);
+        await dbContext.AddExpenseAsync(newExpense);
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return newExpense.Id;
