@@ -10,11 +10,11 @@ public sealed class ExpenseCategory : Entity
     // Navigation Property
     public ICollection<ExpenseCategory> ChildCategories { get; private set; }
 
-    public ExpenseCategory(string name, string description, Guid createdBy, Guid? parentCategoryId = null)
+    public ExpenseCategory(Guid id, string name, string description, Guid createdBy, Guid? parentCategoryId = null)
     {
-        Id = Guid.NewGuid();
-        Name = name;
-        Description = description;
+        SetId(id);
+        SetName(name);
+        SetDescription(description);
         ParentCategoryId = parentCategoryId;
         CreatedBy = createdBy;
         ChildCategories = [];
@@ -22,10 +22,45 @@ public sealed class ExpenseCategory : Entity
 
     public void Update(string name, string description, Guid updatedBy, Guid? parentCategoryId = null)
     {
-        Name = name;
-        Description = description;
+        SetName(name);
+        SetDescription(description);
         ParentCategoryId = parentCategoryId;
         UpdatedAt = DateTime.UtcNow;
         UpdatedBy = updatedBy;
+    }
+
+    public void SetId(Guid id)
+    {
+        if (id == Guid.Empty)
+            throw new ExpenseException("Invalid expense category id");
+
+        Id = id;
+    }
+
+    public void SetName(string name)
+    {
+        if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
+            throw new ExpenseException("Name cannot be empty");
+
+        Name = name;
+    }
+
+    public void SetDescription(string description)
+    {
+        if (string.IsNullOrEmpty(description) || string.IsNullOrWhiteSpace(description))
+            throw new ExpenseException("Description cannot be empty");
+
+        Description = description;
+    }
+
+    public void AddSubCategory(ExpenseCategory category)
+    {
+        if (ParentCategory is not null)
+            throw new ExpenseException("Cannot add to a sub category");
+
+        if (ChildCategories.Any(x => x.Id == category.Id))
+            throw new ExpenseException("Sub category already exist");
+
+        ChildCategories.Add(category);
     }
 }

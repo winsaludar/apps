@@ -1,9 +1,11 @@
 ﻿namespace Budget.Infrastructure.Database;
 
-public sealed class BudgetDbContext(DbContextOptions<BudgetDbContext> options) : DbContext(options), IExpenseDbContext
+public sealed class BudgetDbContext(DbContextOptions<BudgetDbContext> options) : DbContext(options), IExpenseDbContext, IExpenseCategoryDbContext
 {
     public DbSet<Expense> Expenses { get; set; }
-    public DbSet<ExpenseCategory> ExpensesCategories { get; set;}
+    public DbSet<ExpenseCategory> ExpenseCategories { get; set;}
+
+    #region EXPENSES
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -13,7 +15,7 @@ public sealed class BudgetDbContext(DbContextOptions<BudgetDbContext> options) :
 
     public async Task AddExpense(Expense expense) 
     {
-        ExpenseCategory? category = await ExpensesCategories.FirstOrDefaultAsync(x => x.Id == expense.CategoryId) 
+        ExpenseCategory? category = await ExpenseCategories.FirstOrDefaultAsync(x => x.Id == expense.CategoryId) 
             ?? throw new ExpenseException($"Invalid category id: {expense.CategoryId}");
 
         Expenses.Add(expense);
@@ -24,7 +26,7 @@ public sealed class BudgetDbContext(DbContextOptions<BudgetDbContext> options) :
         Expense? dbExpense = await Expenses.FirstOrDefaultAsync(x => x.Id == expense.Id && x.UserId == expense.UserId)
             ?? throw new ExpenseException($"Invalid expense id: {expense.Id}", HttpStatusCode.NotFound);
 
-        ExpenseCategory? category = await ExpensesCategories.FirstOrDefaultAsync(x => x.Id == expense.CategoryId)
+        ExpenseCategory? category = await ExpenseCategories.FirstOrDefaultAsync(x => x.Id == expense.CategoryId)
             ?? throw new ExpenseException($"Invalid category id: {expense.CategoryId}");
 
         dbExpense.Update(expense.UserId, expense.Amount, expense.Currency, expense.Date, expense.Description, expense.CategoryId);
@@ -43,4 +45,29 @@ public sealed class BudgetDbContext(DbContextOptions<BudgetDbContext> options) :
     {
         await SaveChangesAsync(cancellationToken);
     }
+
+    #endregion
+
+    #region EXPENSE_CATEGORIES
+
+    public async Task AddExpenseCategoryAsync(ExpenseCategory expenseCategory)
+    {
+        if (expenseCategory.ParentCategoryId is not null)
+        {
+            _ = await ExpenseCategories.FirstOrDefaultAsync(x => x.Id == expenseCategory.ParentCategoryId)
+                ?? throw new ExpenseException($"Invalid parent category id: {expenseCategory.ParentCategoryId}");
+        }
+
+        if (await ExpenseCategories.AnyAsync(x => x.Name.ToLower() == expenseCategory.Name.ToLower()))
+            throw new ExpenseException($"Category with name: {expenseCategory.Name} already exist");
+
+        ExpenseCategories.Add(expenseCategory);
+    }
+
+    async Task IExpenseCategoryDbContext.SaveChangesAsync(CancellationToken cancellationToken)
+    {
+        await SaveChangesAsync(cancellationToken);
+    }
+
+    #endregion
 }

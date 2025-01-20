@@ -15,5 +15,6 @@ public sealed class DbContextRegistrar : IRegistrar
         }, ServiceLifetime.Scoped);
 
         services.AddScoped<IExpenseDbContext, BudgetDbContext>();
+        services.AddScoped<IExpenseCategoryDbContext, BudgetDbContext>();
     }
 }

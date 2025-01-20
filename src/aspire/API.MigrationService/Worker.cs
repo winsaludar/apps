@@ -26,7 +26,7 @@ public class Worker(IServiceProvider serviceProvider, IHostApplicationLifetime h
         }
         catch (Exception ex) 
         {
-            activity?.RecordException(ex);
+            activity?.AddException(ex);
             throw;
         }
 
