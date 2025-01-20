@@ -1,4 +1,4 @@
-﻿namespace Budget.Infrastructure.Expenses;
+﻿namespace Budget.Infrastructure.ExpenseCategories;
 
 internal sealed class ExpenseCategoryTypeConfiguration : IEntityTypeConfiguration<ExpenseCategory>
 {

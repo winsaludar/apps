@@ -2,6 +2,8 @@
 global using Budget.API.Middlewares;
 global using Budget.API.Registrars;
 global using Budget.Application.Abstractions;
+global using Budget.Application.ExpenseCategories;
+global using Budget.Application.ExpenseCategories.GetAll;
 global using Budget.Application.Expenses;
 global using Budget.Application.Expenses.Create;
 global using Budget.Application.Expenses.Delete;
@@ -11,6 +13,7 @@ global using Budget.Application.Expenses.Update;
 global using Budget.Domain.Expenses;
 global using Budget.Infrastructure.Authentication;
 global using Budget.Infrastructure.Database;
+global using Budget.Infrastructure.ExpenseCategories;
 global using Budget.Infrastructure.Expenses;
 global using FluentValidation;
 global using MediatR;
