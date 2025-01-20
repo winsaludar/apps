@@ -26,6 +26,7 @@ global using Microsoft.EntityFrameworkCore;
 global using Microsoft.IdentityModel.Tokens;
 global using Shared.Common.Behaviors;
 global using Shared.Common.Exceptions;
+global using Shared.Common.Extensions;
 global using Shared.Common.Interfaces;
 global using Shared.Common.Settings;
 global using Shared.Http.Responses;
