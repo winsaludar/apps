@@ -25,7 +25,7 @@ jobs:
 
       - name: Install .NET Workloads
         run: |
-          dotnet workloads install
+          dotnet workload install
 
       - name: Restore .NET workloads
         run: dotnet workload restore ./src/Apps.sln
