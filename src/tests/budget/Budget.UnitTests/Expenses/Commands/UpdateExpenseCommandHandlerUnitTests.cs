@@ -15,14 +15,14 @@ public sealed class UpdateExpenseCommandHandlerUnitTests
     {
         // Arrange
         UpdateExpenseCommand command = new(Guid.NewGuid(), Guid.NewGuid(), 1000, "PHP", DateTime.UtcNow.ToShortDateString(), "Test Expense", Guid.NewGuid().ToString());
-        _dbContext.Setup(x => x.UpdateExpense(It.IsAny<Expense>()))
+        _dbContext.Setup(x => x.UpdateExpenseAsync(It.IsAny<Expense>()))
             .ThrowsAsync(new ExpenseException("Invalid expense"));
 
         // Act
         await Assert.ThrowsAsync<ExpenseException>(() => _handler.Handle(command, CancellationToken.None));
 
         // Assert
-        _dbContext.Verify(x => x.UpdateExpense(It.IsAny<Expense>()), Times.Once());
+        _dbContext.Verify(x => x.UpdateExpenseAsync(It.IsAny<Expense>()), Times.Once());
         _dbContext.Verify(x => x.SaveChangesAsync(CancellationToken.None), Times.Never());
     }
 
@@ -31,14 +31,14 @@ public sealed class UpdateExpenseCommandHandlerUnitTests
     {
         // Arrange
         UpdateExpenseCommand command = new(Guid.NewGuid(), Guid.NewGuid(), 1000, "PHP", DateTime.UtcNow.ToShortDateString(), "Test Expense", Guid.NewGuid().ToString());
-        _dbContext.Setup(x => x.UpdateExpense(It.IsAny<Expense>()))
+        _dbContext.Setup(x => x.UpdateExpenseAsync(It.IsAny<Expense>()))
             .ThrowsAsync(new ExpenseException("Invalid expense category"));
 
         // Act
         await Assert.ThrowsAsync<ExpenseException>(() => _handler.Handle(command, CancellationToken.None));
 
         // Assert
-        _dbContext.Verify(x => x.UpdateExpense(It.IsAny<Expense>()), Times.Once());
+        _dbContext.Verify(x => x.UpdateExpenseAsync(It.IsAny<Expense>()), Times.Once());
         _dbContext.Verify(x => x.SaveChangesAsync(CancellationToken.None), Times.Never());
     }
 
@@ -47,14 +47,14 @@ public sealed class UpdateExpenseCommandHandlerUnitTests
     {
         // Arrange
         UpdateExpenseCommand command = new(Guid.NewGuid(), Guid.NewGuid(), 1000, "PHP", DateTime.UtcNow.ToShortDateString(), "Test Expense", Guid.NewGuid().ToString());
-        _dbContext.Setup(x => x.UpdateExpense(It.IsAny<Expense>()));
+        _dbContext.Setup(x => x.UpdateExpenseAsync(It.IsAny<Expense>()));
         _dbContext.Setup(x => x.SaveChangesAsync(CancellationToken.None));
 
         // Act
         await _handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _dbContext.Verify(x => x.UpdateExpense(It.IsAny<Expense>()), Times.Once());
+        _dbContext.Verify(x => x.UpdateExpenseAsync(It.IsAny<Expense>()), Times.Once());
         _dbContext.Verify(x => x.SaveChangesAsync(CancellationToken.None), Times.Once());
     }
 }

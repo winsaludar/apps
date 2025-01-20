@@ -4,7 +4,7 @@ public sealed class DeleteExpenseCommandHandler(IExpenseDbContext dbContext) : I
 {
     public async Task<Unit> Handle(DeleteExpenseCommand request, CancellationToken cancellationToken)
     {
-        await dbContext.DeleteExpense(request.ExpenseId, request.UserId);
+        await dbContext.DeleteExpenseAsync(request.ExpenseId, request.UserId);
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;

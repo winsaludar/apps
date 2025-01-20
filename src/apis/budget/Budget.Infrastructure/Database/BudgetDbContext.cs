@@ -13,7 +13,7 @@ public sealed class BudgetDbContext(DbContextOptions<BudgetDbContext> options) :
         builder.ApplyConfigurationsFromAssembly(typeof(BudgetDbContext).Assembly);
     }
 
-    public async Task AddExpense(Expense expense) 
+    public async Task AddExpenseAsync(Expense expense) 
     {
         ExpenseCategory? category = await ExpenseCategories.FirstOrDefaultAsync(x => x.Id == expense.CategoryId) 
             ?? throw new ExpenseException($"Invalid category id: {expense.CategoryId}");
@@ -21,7 +21,7 @@ public sealed class BudgetDbContext(DbContextOptions<BudgetDbContext> options) :
         Expenses.Add(expense);
     }
 
-    public async Task UpdateExpense(Expense expense)
+    public async Task UpdateExpenseAsync(Expense expense)
     {
         Expense? dbExpense = await Expenses.FirstOrDefaultAsync(x => x.Id == expense.Id && x.UserId == expense.UserId)
             ?? throw new ExpenseException($"Invalid expense id: {expense.Id}", HttpStatusCode.NotFound);
@@ -33,7 +33,7 @@ public sealed class BudgetDbContext(DbContextOptions<BudgetDbContext> options) :
         Expenses.Update(dbExpense);
     }
 
-    public async Task DeleteExpense(Guid expenseId, Guid userId)
+    public async Task DeleteExpenseAsync(Guid expenseId, Guid userId)
     {
         Expense? dbExpense = await Expenses.FirstOrDefaultAsync(x => x.Id == expenseId && x.UserId == userId)
             ?? throw new ExpenseException($"Invalid expense id: {expenseId}", HttpStatusCode.NotFound);
