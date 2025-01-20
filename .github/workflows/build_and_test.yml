@@ -25,7 +25,7 @@ jobs:
 
       - name: Install .NET Workloads
         run: |
-          dotnet workload install
+          dotnet workload install aspire
 
       - name: Restore .NET workloads
         run: dotnet workload restore ./src/Apps.sln
