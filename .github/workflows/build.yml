@@ -14,6 +14,7 @@ on:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
@@ -24,8 +25,7 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Install .NET Workloads
-        run: |
-          dotnet workload install aspire
+        run: dotnet workload install aspire
 
       - name: Restore .NET workloads
         run: dotnet workload restore ./src/Apps.sln
