@@ -45,12 +45,12 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up CodeQL
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v3
         with:
           languages: "csharp"
 
       - name: Run CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v3
 
   semgrep:
     runs-on: ubuntu-latest
