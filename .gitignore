@@ -36,3 +36,5 @@
 /src/apis/budget/Budget.Domain/obj
 /src/apis/budget/Budget.Infrastructure/bin/Debug/net8.0
 /src/apis/budget/Budget.Infrastructure/obj
+/src/tests/budget/Budget.UnitTests/bin/Debug/net8.0
+/src/tests/budget/Budget.UnitTests/obj
