@@ -53,6 +53,14 @@ public sealed class ExpenseCategory : Entity
         Description = description;
     }
 
+    public void SetParentCategoryId(Guid? parentCategoryId = null)
+    {
+        if (parentCategoryId is not null && parentCategoryId == Guid.Empty)
+            throw new ExpenseException("Invalid parent category id");
+
+        ParentCategoryId = parentCategoryId;
+    }
+
     public void AddSubCategory(ExpenseCategory category)
     {
         if (ParentCategory is not null)

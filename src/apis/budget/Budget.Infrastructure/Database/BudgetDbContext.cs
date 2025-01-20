@@ -52,16 +52,39 @@ public sealed class BudgetDbContext(DbContextOptions<BudgetDbContext> options) :
 
     public async Task AddExpenseCategoryAsync(ExpenseCategory expenseCategory)
     {
+        // Prevent duplicate category name
+        if (await ExpenseCategories.AnyAsync(x => x.Name.ToLower() == expenseCategory.Name.ToLower()))
+            throw new ExpenseException($"Category with name: {expenseCategory.Name} already exist");
+
+        // Target parent category does not exist
         if (expenseCategory.ParentCategoryId is not null)
         {
             _ = await ExpenseCategories.FirstOrDefaultAsync(x => x.Id == expenseCategory.ParentCategoryId)
                 ?? throw new ExpenseException($"Invalid parent category id: {expenseCategory.ParentCategoryId}");
         }
 
-        if (await ExpenseCategories.AnyAsync(x => x.Name.ToLower() == expenseCategory.Name.ToLower()))
+        ExpenseCategories.Add(expenseCategory);
+    }
+
+    public async Task UpdateExpenseCategoryAsync(ExpenseCategory expenseCategory)
+    {
+        // Target category does not exist
+        ExpenseCategory? dbCategory = await ExpenseCategories.FirstOrDefaultAsync(x => x.Id == expenseCategory.Id)
+            ?? throw new ExpenseException($"Invalid expense category id: {expenseCategory.Id}");
+
+        // Different category with new updated name already exist
+        if (await ExpenseCategories.AnyAsync(x => x.Id != expenseCategory.Id &&  x.Name.ToLower() == expenseCategory.Name.ToLower()))
             throw new ExpenseException($"Category with name: {expenseCategory.Name} already exist");
 
-        ExpenseCategories.Add(expenseCategory);
+        // Target parent category does not exist
+        if (expenseCategory.ParentCategoryId is not null)
+        {
+            _ = await ExpenseCategories.FirstOrDefaultAsync(x => x.Id == expenseCategory.ParentCategoryId)
+                ?? throw new ExpenseException($"Invalid parent category id: {expenseCategory.ParentCategoryId}");
+        }
+
+        dbCategory.Update(expenseCategory.Name, expenseCategory.Description, expenseCategory.CreatedBy, expenseCategory.ParentCategoryId);
+        ExpenseCategories.Update(dbCategory);
     }
 
     async Task IExpenseCategoryDbContext.SaveChangesAsync(CancellationToken cancellationToken)

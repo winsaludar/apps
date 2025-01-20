@@ -6,6 +6,7 @@ global using Budget.Application.ExpenseCategories;
 global using Budget.Application.ExpenseCategories.Create;
 global using Budget.Application.ExpenseCategories.GetAll;
 global using Budget.Application.ExpenseCategories.GetById;
+global using Budget.Application.ExpenseCategories.Update;
 global using Budget.Application.Expenses;
 global using Budget.Application.Expenses.Create;
 global using Budget.Application.Expenses.Delete;

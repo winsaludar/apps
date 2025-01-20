@@ -1,6 +1,6 @@
 ﻿namespace Budget.API.Endpoints.ExpenseCategories;
 
-public class Create : IEndpoint
+internal sealed class Create : IEndpoint
 {
     public sealed record CreateExpenseCategoryRequest(string Name, string Description, string? ParentCategoryId = null);
 
