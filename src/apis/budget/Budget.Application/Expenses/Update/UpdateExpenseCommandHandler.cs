@@ -1,6 +1,6 @@
 ﻿namespace Budget.Application.Expenses.Update;
 
-public class UpdateExpenseCommandHandler(IBudgetDbContext dbContext) : IRequestHandler<UpdateExpenseCommand, Unit>
+public class UpdateExpenseCommandHandler(IExpenseDbContext dbContext) : IRequestHandler<UpdateExpenseCommand, Unit>
 {
     public async Task<Unit> Handle(UpdateExpenseCommand request, CancellationToken cancellationToken)
     {

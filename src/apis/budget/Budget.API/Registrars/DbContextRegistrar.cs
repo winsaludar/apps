@@ -14,6 +14,6 @@ public sealed class DbContextRegistrar : IRegistrar
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         }, ServiceLifetime.Scoped);
 
-        services.AddScoped<IBudgetDbContext, BudgetDbContext>();
+        services.AddScoped<IExpenseDbContext, BudgetDbContext>();
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Budget.Application.Expenses.Create;
 
-public sealed class CreateExpenseCommandHandler(IBudgetDbContext dbContext) : IRequestHandler<CreateExpenseCommand, Unit>
+public sealed class CreateExpenseCommandHandler(IExpenseDbContext dbContext) : IRequestHandler<CreateExpenseCommand, Unit>
 {
     public async Task<Unit> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)
     {

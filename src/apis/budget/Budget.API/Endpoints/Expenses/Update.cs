@@ -10,10 +10,11 @@ internal sealed class Update : IEndpoint
         {
             UpdateExpenseCommand command = new(id, userContext.UserId.ToString(), request.Amount, request.Currency, request.Date, request.Description, request.CategoryId);
             await sender.Send(command, cancellationToken);
-            return Results.Ok();
+            return Results.NoContent();
         })
-        .Produces(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status204NoContent)
         .Produces<ErrorResponse>(StatusCodes.Status400BadRequest)
+        .Produces<ErrorResponse>(StatusCodes.Status404NotFound)
         .Produces(StatusCodes.Status401Unauthorized)
         .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError);
     }

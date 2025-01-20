@@ -1,6 +1,6 @@
 ﻿namespace Budget.Infrastructure.Database;
 
-public sealed class BudgetDbContext(DbContextOptions<BudgetDbContext> options) : DbContext(options), IBudgetDbContext
+public sealed class BudgetDbContext(DbContextOptions<BudgetDbContext> options) : DbContext(options), IExpenseDbContext
 {
     public DbSet<Expense> Expenses { get; set; }
     public DbSet<ExpenseCategory> ExpensesCategories { get; set;}
@@ -31,7 +31,15 @@ public sealed class BudgetDbContext(DbContextOptions<BudgetDbContext> options) :
         Expenses.Update(dbExpense);
     }
 
-    async Task IBudgetDbContext.SaveChangesAsync(CancellationToken cancellationToken)
+    public async Task DeleteExpense(Guid expenseId, Guid userId)
+    {
+        Expense? dbExpense = await Expenses.FirstOrDefaultAsync(x => x.Id == expenseId && x.UserId == userId)
+            ?? throw new ExpenseException($"Invalid expense id: {expenseId}", HttpStatusCode.NotFound);
+
+        Expenses.Remove(dbExpense);
+    }
+
+    async Task IExpenseDbContext.SaveChangesAsync(CancellationToken cancellationToken)
     {
         await SaveChangesAsync(cancellationToken);
     }
