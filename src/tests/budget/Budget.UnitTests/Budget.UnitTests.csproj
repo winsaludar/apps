@@ -28,12 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Expenses\Commands\" />
-    <Folder Include="Expenses\Domain\" />
-    <Folder Include="Expenses\Validators\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\apis\budget\Budget.Application\Budget.Application.csproj" />
     <ProjectReference Include="..\..\..\apis\budget\Budget.Domain\Budget.Domain.csproj" />
     <ProjectReference Include="..\..\..\apis\budget\Budget.Infrastructure\Budget.Infrastructure.csproj" />
