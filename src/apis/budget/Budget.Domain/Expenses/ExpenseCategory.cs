@@ -58,6 +58,9 @@ public sealed class ExpenseCategory : Entity
         if (parentCategoryId is not null && parentCategoryId == Guid.Empty)
             throw new ExpenseException("Invalid parent category id");
 
+        if (parentCategoryId is not null && parentCategoryId == Id)
+            throw new ExpenseException("Cannot set parent to self");
+
         ParentCategoryId = parentCategoryId;
     }
 
