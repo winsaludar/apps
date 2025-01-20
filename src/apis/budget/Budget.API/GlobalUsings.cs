@@ -4,6 +4,7 @@ global using Budget.API.Registrars;
 global using Budget.Application.Abstractions;
 global using Budget.Application.ExpenseCategories;
 global using Budget.Application.ExpenseCategories.GetAll;
+global using Budget.Application.ExpenseCategories.GetById;
 global using Budget.Application.Expenses;
 global using Budget.Application.Expenses.Create;
 global using Budget.Application.Expenses.Delete;
@@ -27,3 +28,4 @@ global using Shared.Common.Settings;
 global using Shared.Http.Responses;
 global using System.Text;
 global using System.Text.Json;
+
