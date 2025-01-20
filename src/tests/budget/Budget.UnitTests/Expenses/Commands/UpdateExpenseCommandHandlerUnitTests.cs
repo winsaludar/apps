@@ -47,7 +47,7 @@ public sealed class UpdateExpenseCommandHandlerUnitTests
     {
         // Arrange
         UpdateExpenseCommand command = new(Guid.NewGuid(), Guid.NewGuid(), 1000, "PHP", DateTime.UtcNow.ToShortDateString(), "Test Expense", Guid.NewGuid().ToString());
-        _dbContext.Setup(x => x.AddExpense(It.IsAny<Expense>()));
+        _dbContext.Setup(x => x.UpdateExpense(It.IsAny<Expense>()));
         _dbContext.Setup(x => x.SaveChangesAsync(CancellationToken.None));
 
         // Act

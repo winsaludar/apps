@@ -1,5 +1,6 @@
 global using Budget.Application.Expenses;
 global using Budget.Application.Expenses.Create;
+global using Budget.Application.Expenses.Delete;
 global using Budget.Application.Expenses.GetAll;
 global using Budget.Application.Expenses.GetById;
 global using Budget.Application.Expenses.Update;
