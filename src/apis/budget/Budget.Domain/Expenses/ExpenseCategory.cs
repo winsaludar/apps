@@ -15,7 +15,7 @@ public sealed class ExpenseCategory : Entity
         SetId(id);
         SetName(name);
         SetDescription(description);
-        ParentCategoryId = parentCategoryId;
+        SetParentCategoryId(parentCategoryId);
         CreatedBy = createdBy;
         ChildCategories = [];
     }
@@ -24,7 +24,7 @@ public sealed class ExpenseCategory : Entity
     {
         SetName(name);
         SetDescription(description);
-        ParentCategoryId = parentCategoryId;
+        SetParentCategoryId(parentCategoryId);
         UpdatedAt = DateTime.UtcNow;
         UpdatedBy = updatedBy;
     }
@@ -62,16 +62,5 @@ public sealed class ExpenseCategory : Entity
             throw new ExpenseException("Cannot set parent to self");
 
         ParentCategoryId = parentCategoryId;
-    }
-
-    public void AddSubCategory(ExpenseCategory category)
-    {
-        if (ParentCategory is not null)
-            throw new ExpenseException("Cannot add to a sub category");
-
-        if (ChildCategories.Any(x => x.Id == category.Id))
-            throw new ExpenseException("Sub category already exist");
-
-        ChildCategories.Add(category);
     }
 }
