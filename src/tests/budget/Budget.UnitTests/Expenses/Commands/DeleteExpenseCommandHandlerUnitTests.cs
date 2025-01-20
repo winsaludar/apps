@@ -11,7 +11,7 @@ public sealed class DeleteExpenseCommandHandlerUnitTests
     }
 
     [Fact]
-    public async Task Handle_ExpenseDoesNotExist_ThrowsExpenseException()
+    public async Task Handle_DeleteExpenseFails_ThrowsExpenseException()
     {
         // Arrange
         DeleteExpenseCommand command = new(Guid.NewGuid(), Guid.NewGuid());
@@ -27,7 +27,7 @@ public sealed class DeleteExpenseCommandHandlerUnitTests
     }
 
     [Fact]
-    public async Task Handle_ExpenseDoesExist_DeleteExpense()
+    public async Task Handle_DeleteExpenseSucceed_SaveChanges()
     {
         // Arrange
         DeleteExpenseCommand command = new(Guid.NewGuid(), Guid.NewGuid());

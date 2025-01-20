@@ -11,7 +11,7 @@ public sealed class CreateExpenseCommandHandlerTests
     }
 
     [Fact]
-    public async Task Handle_ExpenseCategoryDoesNotExist_ThrowsExpenseException()
+    public async Task Handle_AddExpenseFails_ThrowsExpenseException()
     {
         // Arrange
         CreateExpenseCommand command = new(Guid.NewGuid(), 1000, "PHP", DateTime.UtcNow.ToShortDateString(), "Test Expense", Guid.NewGuid().ToString());
@@ -27,7 +27,7 @@ public sealed class CreateExpenseCommandHandlerTests
     }
 
     [Fact]
-    public async Task Handle_ExpenseDataIsValid_ReturnNewExpenseId()
+    public async Task Handle_AddExpenseSucceed_SaveChangesAndReturnNewId()
     {
         // Arrange
         CreateExpenseCommand command = new(Guid.NewGuid(), 1000, "PHP", DateTime.UtcNow.ToShortDateString(), "Test Expense", Guid.NewGuid().ToString());
