@@ -6,9 +6,14 @@ public class LoggingMiddleware(ILogger<LoggingMiddleware> logger) : IMiddleware
     {
         // Log request details
         logger.LogInformation("Handling request: {Method} {Path} with QueryString: {QueryString}",
-            context.Request.Method,
-            context.Request.Path,
-            context.Request.QueryString);
+            context.Request.Method.ToString().RemoveNewLine(),
+            context.Request.Path.ToString().RemoveNewLine(),
+            context.Request.QueryString.ToString().RemoveNewLine());
+
+        foreach (var header in context.Request.Headers)
+        {
+            logger.LogInformation("Request Header: {Key}: {Value}", header.Key.RemoveNewLine(), header.Value.ToString().RemoveNewLine());
+        }
 
         await next(context);
 
